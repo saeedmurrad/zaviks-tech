@@ -9,23 +9,9 @@
 </header>
 
 <section class="section section-tight">
-  <div class="wrap service-list">
+  <div class="wrap service-list" reveal>
     <article>
-      <span class="icon-box" aria-hidden="true">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M12 20h9" />
-          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-        </svg>
-      </span>
+      <span class="icon-box"><app-icon name="pen" /></span>
       <h2>Customise</h2>
       <p>
         Brand, colours, and wording live in configuration, not code. Features are modular, so we add
@@ -34,22 +20,7 @@
       <p>You describe the change. We send a quote and a timeline before work starts.</p>
     </article>
     <article>
-      <span class="icon-box" aria-hidden="true">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="2" y="3" width="20" height="8" rx="2" />
-          <rect x="2" y="13" width="20" height="8" rx="2" />
-          <path d="M6 7h.01M6 17h.01" />
-        </svg>
-      </span>
+      <span class="icon-box"><app-icon name="server" /></span>
       <h2>Deploy</h2>
       <p>
         Each customer gets their own copy, installed on your server or a cloud account you control.
@@ -58,21 +29,7 @@
       <p>You get a short setup guide your team can keep.</p>
     </article>
     <article>
-      <span class="icon-box" aria-hidden="true">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-          <path d="m9 12 2 2 4-4" />
-        </svg>
-      </span>
+      <span class="icon-box"><app-icon name="shield" /></span>
       <h2>Maintain</h2>
       <p>
         Security updates and fixes applied to your copy. Every support request is logged against
@@ -83,9 +40,32 @@
   </div>
 </section>
 
+<section class="section section-soft">
+  <div class="wrap">
+    <div class="section-head center" reveal>
+      <div>
+        <p class="eyebrow">How every product is built</p>
+        <h2>Made to be changed quickly and safely.</h2>
+        <p class="lede">
+          Five rules every shelf product follows, so a second customer never needs a second product.
+        </p>
+      </div>
+    </div>
+    <div class="principles" reveal>
+      @for (rule of principles; track rule.title) {
+        <article class="card">
+          <span class="icon-box"><app-icon [name]="rule.icon" /></span>
+          <h3>{{ rule.title }}</h3>
+          <p>{{ rule.text }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
 <section class="closer">
   <div class="wrap">
-    <div class="closer-panel">
+    <div class="closer-panel" reveal>
       <h2>See the maintenance plans.</h2>
       <p>Three plans, priced monthly, chosen as part of the quote.</p>
       <div class="actions">

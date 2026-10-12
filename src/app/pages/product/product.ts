@@ -5,11 +5,13 @@ import { DemoWarmup } from '../../core/demo-warmup';
 import { absoluteUrl, Seo } from '../../core/seo';
 import { productBySlug, products, type Product } from '../../data/products';
 import { ProductCard } from '../../shared/product-card';
+import { Icon } from '../../shared/icon';
 import { ProductMock } from '../../shared/product-mock';
+import { Reveal } from '../../shared/reveal';
 
 @Component({
   selector: 'app-product',
-  imports: [RouterLink, ProductMock, ProductCard],
+  imports: [RouterLink, ProductMock, ProductCard, Icon, Reveal],
   templateUrl: './product.html',
 })
 export class ProductPage {

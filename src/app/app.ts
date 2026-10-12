@@ -1,5 +1,13 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, effect, HostListener, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  DestroyRef,
+  effect,
+  HostListener,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -25,6 +33,7 @@ export class App {
   });
 
   constructor() {
+    afterNextRender(() => this.document.documentElement.classList.add('js'));
     const router = inject(Router);
     const destroyRef = inject(DestroyRef);
     let firstNavigation = true;

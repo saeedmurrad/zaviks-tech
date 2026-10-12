@@ -12,8 +12,10 @@ import { ProductCard } from '../../shared/product-card';
 export class Shelf {
   readonly query = signal('');
   readonly industry = signal('All');
+  readonly category = signal('All');
   readonly price = signal('all');
   readonly industries = ['All', ...new Set(products.map((product) => product.industry))];
+  readonly categories = ['All', ...new Set(products.map((product) => product.category))];
   readonly prices = [
     { id: 'all', label: 'Any price' },
     { id: 'under', label: 'Under £3,000' },
@@ -35,12 +37,13 @@ export class Shelf {
         .toLowerCase();
       const matchesQuery = !query || haystack.includes(query);
       const matchesIndustry = this.industry() === 'All' || product.industry === this.industry();
+      const matchesCategory = this.category() === 'All' || product.category === this.category();
       const matchesPrice =
         this.price() === 'all' ||
         (this.price() === 'quoted' && product.priceValue === null) ||
         (this.price() === 'under' && product.priceValue !== null && product.priceValue < 3000) ||
         (this.price() === 'over' && product.priceValue !== null && product.priceValue >= 3000);
-      return matchesQuery && matchesIndustry && matchesPrice;
+      return matchesQuery && matchesIndustry && matchesCategory && matchesPrice;
     });
   });
 
@@ -56,6 +59,7 @@ export class Shelf {
   clear(): void {
     this.query.set('');
     this.industry.set('All');
+    this.category.set('All');
     this.price.set('all');
   }
 }

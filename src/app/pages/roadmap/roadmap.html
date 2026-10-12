@@ -1,0 +1,60 @@
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Roadmap</p>
+    <h1>What works today, and what comes next.</h1>
+    <p class="lede">
+      The platform is built in three phases. This page is kept honest: a feature is marked live only
+      when you can use it.
+    </p>
+    <div class="status-summary">
+      <span class="status status-live">{{ count('live') }} live</span>
+      <span class="status status-building">{{ count('building') }} in progress</span>
+      <span class="status status-planned">{{ count('planned') }} planned</span>
+    </div>
+  </div>
+</header>
+
+<section class="section section-tight">
+  <div class="wrap phases">
+    @for (phase of phases; track phase.name) {
+      <article class="phase" reveal>
+        <div class="phase-head">
+          <p class="eyebrow">{{ phase.name }}</p>
+          <h2>{{ phase.title }}</h2>
+          <p>{{ phase.summary }}</p>
+        </div>
+        <ul class="phase-list">
+          @for (item of phase.items; track item.label) {
+            <li [class]="'is-' + item.status">
+              <span class="status" [class]="'status status-' + item.status">{{
+                label(item.status)
+              }}</span>
+              <span>
+                {{ item.label }}
+                @if (item.note) {
+                  <small>{{ item.note }}</small>
+                }
+              </span>
+            </li>
+          }
+        </ul>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="closer">
+  <div class="wrap">
+    <div class="closer-panel">
+      <h2>Want a feature sooner?</h2>
+      <p>
+        Tell us what your business needs first. The order of the roadmap follows what customers ask
+        for.
+      </p>
+      <div class="actions">
+        <a class="btn btn-accent btn-lg" routerLink="/contact">Talk to us</a>
+        <a class="btn btn-ghost btn-lg" routerLink="/shelf">Browse the shelf</a>
+      </div>
+    </div>
+  </div>
+</section>

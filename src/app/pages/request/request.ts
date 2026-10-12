@@ -24,7 +24,8 @@ export class Request {
     company: ['', [Validators.required, Validators.maxLength(160)]],
     phone: ['', [Validators.maxLength(40)]],
     priority: ['standard' as EnquiryPriority, Validators.required],
-    message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(4000)]],
+    message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(3000)]],
+    links: ['', [Validators.maxLength(800)]],
     website: [''],
   });
 
@@ -70,7 +71,9 @@ export class Request {
       company: value.company,
       phone: value.phone,
       productSlug: value.product,
-      message: value.message,
+      message: value.links.trim()
+        ? `${value.message.trim()}\n\nLinks to documents:\n${value.links.trim()}`
+        : value.message,
       priority: value.priority,
     };
     this.mailtoHref.set(this.enquiries.mailto(enquiry));

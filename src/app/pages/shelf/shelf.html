@@ -50,6 +50,20 @@
         </div>
       </fieldset>
       <fieldset>
+        <legend class="sr-only">Category</legend>
+        <div class="pills">
+          @for (item of categories; track item) {
+            <button
+              type="button"
+              [attr.aria-pressed]="category() === item"
+              (click)="category.set(item)"
+            >
+              {{ item }}
+            </button>
+          }
+        </div>
+      </fieldset>
+      <fieldset>
         <legend class="sr-only">Price</legend>
         <div class="pills">
           @for (item of prices; track item.id) {

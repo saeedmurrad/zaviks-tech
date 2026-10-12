@@ -611,7 +611,6 @@ svg {
 .hero {
   position: relative;
   padding: 5.5rem 0 0;
-  overflow: hidden;
 }
 
 .hero::before {
@@ -2172,4 +2171,367 @@ textarea {
 
 .bento .card:not(.feature) .ui-body {
   min-height: 140px;
+}
+
+/* ---- Spec additions: benefits, principles, glance, gallery, roadmap, payments, reveal ---- */
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.principles {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.principles .card {
+  grid-column: span 2;
+}
+
+.principles .card:nth-child(4),
+.principles .card:nth-child(5) {
+  grid-column: span 3;
+}
+
+.center-actions {
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.kicker-gap {
+  margin-bottom: 1rem;
+}
+
+.glance {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 1.5rem 0 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.glance > div {
+  padding: 1rem 1.15rem;
+  border-right: 1px solid var(--line);
+  display: grid;
+  gap: 0.3rem;
+}
+
+.glance > div:last-child {
+  border-right: 0;
+}
+
+.glance dt {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.glance dd {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: 0.98rem;
+}
+
+.buy-box .btn-ghost {
+  box-shadow: none;
+}
+
+.phone {
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 375 / 812;
+  border-radius: 28px;
+  padding: 8px;
+  background: #0b0b0f;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    var(--shadow-lg);
+}
+
+.phone img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.gallery .phone {
+  transition:
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+.gallery .phone:hover {
+  transform: translateY(-6px);
+}
+
+.hero-visual {
+  position: relative;
+}
+
+.phone-float {
+  position: absolute;
+  right: -1.5rem;
+  bottom: -2.5rem;
+  width: 190px;
+  z-index: 2;
+  transform: rotate(-4deg);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 40px 80px -30px rgba(11, 11, 15, 0.45);
+}
+
+.hero-visual::after {
+  z-index: 1;
+}
+
+.hero + .strip {
+  margin-top: 2.5rem;
+}
+
+.payments {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.payments .icon-box {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.payments h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.payments p {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.payments a {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-live {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.status-building {
+  background: #fff7e6;
+  color: #b45309;
+}
+
+.status-planned {
+  background: var(--bg-soft);
+  color: var(--muted);
+}
+
+.status-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.status-summary .status {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.8rem;
+}
+
+.phases {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.phase {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 2rem;
+  padding: 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.phase-head h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.phase-head p:last-child {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.phase-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.phase-list li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.phase-list li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.phase-list li.is-planned {
+  color: var(--ink-2);
+}
+
+.phase-list small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 0.1rem;
+}
+
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+html.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 1000px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .phase {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .principles {
+    grid-template-columns: 1fr;
+  }
+
+  .principles .card,
+  .principles .card:nth-child(4),
+  .principles .card:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .glance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .glance > div:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .glance > div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .phone-float {
+    display: none;
+  }
+
+  .hero + .strip {
+    margin-top: 0;
+  }
+
+  .payments {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .phase-list li {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

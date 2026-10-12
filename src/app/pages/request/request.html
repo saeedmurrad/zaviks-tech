@@ -108,6 +108,14 @@
             >
           }
         </label>
+        <label>
+          <span>Links to documents <span class="optional">(optional)</span></span>
+          <textarea
+            formControlName="links"
+            rows="2"
+            placeholder="Google Drive, Dropbox, or Figma links to a brief, logo, or screenshots"
+          ></textarea>
+        </label>
         <button class="btn btn-accent" type="submit" [disabled]="status() === 'sending'">
           {{ status() === 'sending' ? 'Sending…' : 'Send request' }}
         </button>

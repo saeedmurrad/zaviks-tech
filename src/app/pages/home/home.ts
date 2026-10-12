@@ -3,19 +3,22 @@ import { RouterLink } from '@angular/router';
 import { DemoWarmup } from '../../core/demo-warmup';
 import { absoluteUrl, Seo } from '../../core/seo';
 import { products } from '../../data/products';
-import { plans, site, stages } from '../../data/site';
+import { benefits, plans, site, stages } from '../../data/site';
 import { ProductCard } from '../../shared/product-card';
+import { Icon } from '../../shared/icon';
 import { ProductMock } from '../../shared/product-mock';
+import { Reveal } from '../../shared/reveal';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ProductMock, ProductCard],
+  imports: [RouterLink, ProductMock, ProductCard, Icon, Reveal],
   templateUrl: './home.html',
 })
 export class Home {
   readonly products = products;
   readonly stages = stages;
   readonly plans = plans;
+  readonly benefits = benefits;
   readonly parkspace = products[0];
 
   constructor() {

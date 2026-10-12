@@ -11,6 +11,8 @@ export interface Product {
   priceLabel: string;
   priceValue: number | null;
   delivery: string;
+  /** Short lead time shown in the product summary, e.g. '4–6 weeks'. */
+  leadTime: string;
   stack: string[];
   features: string[];
   customisation: string[];
@@ -20,6 +22,8 @@ export interface Product {
   demoHealthUrl?: string;
   demoNote?: string;
   mock: MockKind;
+  /** Real screenshots of the running product, shown in phone frames. */
+  screenshots?: { src: string; alt: string }[];
 }
 
 export const products: Product[] = [
@@ -36,6 +40,7 @@ export const products: Product[] = [
     priceValue: null,
     delivery:
       'A working prototype is ready today. A branded deployment typically takes a few weeks once the brief is agreed.',
+    leadTime: '3–6 weeks',
     stack: ['Flutter', 'NestJS', 'Postgres', 'PostGIS', 'Supabase', 'Stripe'],
     features: [
       'Map search with price, walking time, and filters for covered, CCTV, EV, and gated spaces',
@@ -58,6 +63,28 @@ export const products: Product[] = [
     demoNote:
       'On the login screen, choose Driver, Host, or Admin. If the demo server was idle, the first sign-in can take up to a minute. Payments are simulated, and messages stay inside the app.',
     mock: 'parkspace',
+    screenshots: [
+      {
+        src: 'screens/parkspace/explore.jpg',
+        alt: 'ParkSpace map search with priced pins around King’s Cross',
+      },
+      {
+        src: 'screens/parkspace/space-detail.jpg',
+        alt: 'A driveway listing with features, booking window, and price',
+      },
+      {
+        src: 'screens/parkspace/checkout.jpg',
+        alt: 'Checkout with the price breakdown before paying',
+      },
+      {
+        src: 'screens/parkspace/host-dashboard.jpg',
+        alt: 'Host dashboard with earnings and payouts',
+      },
+      {
+        src: 'screens/parkspace/admin-overview.jpg',
+        alt: 'Admin overview with bookings, commission, and approvals',
+      },
+    ],
   },
   {
     slug: 'clientline',
@@ -71,6 +98,7 @@ export const products: Product[] = [
     priceLabel: 'From £3,200',
     priceValue: 3200,
     delivery: 'Typical first deployment is four to six weeks after the brief is agreed.',
+    leadTime: '4–6 weeks',
     stack: ['Angular', 'Node.js', 'Postgres'],
     features: [
       'Companies and people, with the history of every conversation in one place',
@@ -100,6 +128,7 @@ export const products: Product[] = [
     priceLabel: 'From £2,400',
     priceValue: 2400,
     delivery: 'Typical first deployment is four to six weeks after the brief is agreed.',
+    leadTime: '4–6 weeks',
     stack: ['Angular', 'Node.js', 'Postgres'],
     features: [
       'Products, variants, and the quantity on hand',

@@ -8,7 +8,7 @@
         <span aria-hidden="true">/</span>
         <span>{{ item.name }}</span>
       </nav>
-      <div class="card-kicker" style="margin-bottom: 1rem">
+      <div class="card-kicker kicker-gap">
         <span class="tag">{{ item.category }}</span>
         <span class="tag">{{ item.industry }}</span>
         @if (item.demo === 'live') {
@@ -24,6 +24,26 @@
     <div class="wrap product-layout">
       <div>
         <app-product-mock [kind]="item.mock" />
+
+        <dl class="glance">
+          <div>
+            <dt><app-icon name="tag" [size]="16" /> Starting price</dt>
+            <dd>{{ item.priceLabel }}</dd>
+          </div>
+          <div>
+            <dt><app-icon name="clock" [size]="16" /> Typical delivery</dt>
+            <dd>{{ item.leadTime }}</dd>
+          </div>
+          <div>
+            <dt><app-icon name="layers" [size]="16" /> Stack</dt>
+            <dd>{{ item.stack.slice(0, 3).join(', ') }}</dd>
+          </div>
+          <div>
+            <dt><app-icon name="eye" [size]="16" /> Demo</dt>
+            <dd>{{ item.demo === 'live' ? 'Open now' : 'On request' }}</dd>
+          </div>
+        </dl>
+
         <div class="detail-grid">
           <div class="card">
             <h3>What it already does</h3>
@@ -43,42 +63,72 @@
           </div>
         </div>
         <div class="stack-row">
-          <span class="label">Stack</span>
+          <span class="label">Full stack</span>
           <ul class="chips">
             @for (tech of item.stack; track tech) {
               <li>{{ tech }}</li>
             }
           </ul>
         </div>
-        <p class="delivery" style="margin-top: 1rem">{{ item.delivery }}</p>
+        <p class="delivery">{{ item.delivery }}</p>
       </div>
       <aside class="buy-box">
-        <p class="index">Licence</p>
+        <p class="index">Base licence</p>
         <p class="rate">{{ item.priceLabel }}</p>
-        <p>The final figure is confirmed in the quote. No payment is taken on this page.</p>
+        <p>
+          Licenses your own copy. The final figure is confirmed in the quote, and nothing is charged
+          on this page.
+        </p>
+        <a
+          class="btn btn-accent"
+          routerLink="/request"
+          [queryParams]="{ product: item.slug, intent: 'purchase' }"
+          >Buy this product</a
+        >
+        <a
+          class="btn btn-ghost"
+          routerLink="/request"
+          [queryParams]="{ product: item.slug, intent: 'customisation' }"
+          >Request customisation</a
+        >
         @if (item.demo === 'live' && item.demoUrl) {
-          <a class="btn btn-accent" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer"
-            >Open live demo</a
-          >
+          <a class="text-link" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer">
+            Open the live demo
+            <app-icon class="arrow" name="arrow" [size]="16" />
+          </a>
           <p class="note">{{ item.demoNote }}</p>
         } @else {
           <p class="note">A demo is arranged when you request the product.</p>
         }
-        <a
-          class="btn"
-          routerLink="/request"
-          [queryParams]="{ product: item.slug, intent: 'purchase' }"
-          >Request this product</a
-        >
-        <a
-          class="text-link"
-          routerLink="/request"
-          [queryParams]="{ product: item.slug, intent: 'customisation' }"
-          >Request a customisation quote</a
-        >
       </aside>
     </div>
   </section>
+
+  @if (item.screenshots?.length) {
+    <section class="section section-soft">
+      <div class="wrap">
+        <div class="section-head" reveal>
+          <div>
+            <p class="eyebrow">Screenshots</p>
+            <h2>The real product, as it runs today.</h2>
+          </div>
+          @if (item.demoUrl) {
+            <a class="text-link" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer">
+              Try it yourself
+              <app-icon class="arrow" name="arrow" [size]="16" />
+            </a>
+          }
+        </div>
+        <div class="gallery" reveal>
+          @for (shot of item.screenshots; track shot.src) {
+            <figure class="phone">
+              <img [src]="shot.src" [alt]="shot.alt" width="375" height="812" loading="lazy" />
+            </figure>
+          }
+        </div>
+      </div>
+    </section>
+  }
 
   @if (others().length) {
     <section class="section">
