@@ -8,7 +8,7 @@
         <span aria-hidden="true">/</span>
         <span>{{ item.name }}</span>
       </nav>
-      <p class="eyebrow">No. {{ item.catalog }} · {{ item.category }} · {{ item.industry }}</p>
+      <p class="index">No. {{ item.catalog }} · {{ item.category }} · {{ item.industry }}</p>
       <h1>{{ item.name }}</h1>
       <p class="lede">{{ item.summary }}</p>
     </div>
@@ -39,28 +39,31 @@
         <p class="delivery">{{ item.delivery }}</p>
       </div>
       <aside class="buy-box">
-        <p class="eyebrow">Licence</p>
-        <p class="plan-price">{{ item.priceLabel }}</p>
+        <p class="index">Licence</p>
+        <p class="rate">{{ item.priceLabel }}</p>
         <p>The final figure is confirmed in the quote. This page does not take payment.</p>
         @if (item.demo === 'live' && item.demoUrl) {
-          <a class="btn btn-copper" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
+          <a class="btn btn-red" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
           <p class="note">{{ item.demoNote }}</p>
         } @else {
           <p class="note">A demo is arranged when you request the product. There is no public link yet.</p>
         }
         <a class="btn btn-ink" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'purchase' }">Request this product</a>
-        <a class="btn btn-line" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'customisation' }">Request customisation</a>
+        <a class="text-link" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'customisation' }">Request customisation</a>
       </aside>
     </div>
   </section>
 
   @if (others().length) {
-    <section class="section section-alt">
+    <section class="section section-tight">
       <div class="wrap">
-        <h2>Also on the shelf</h2>
+        <p class="index">Also on the shelf</p>
         <ul class="also">
           @for (other of others(); track other.slug) {
-            <li><a [routerLink]="['/shelf', other.slug]">{{ other.name }}</a> — {{ other.promise }}</li>
+            <li>
+              <a [routerLink]="['/shelf', other.slug]">{{ other.name }}</a>
+              <span>{{ other.promise }}</span>
+            </li>
           }
         </ul>
       </div>

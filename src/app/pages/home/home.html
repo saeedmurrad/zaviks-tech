@@ -1,69 +1,61 @@
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow">A shelf of working software</p>
-      <h1>Software that already works. Then we make it yours.</h1>
-      <p class="lede">
-        Zaviks Tech builds products before a customer asks. You choose the closest one, license it for your
-        business, and we customise it, deploy it, and stay on to maintain it.
+<section class="showroom">
+  <div class="wrap showroom-copy">
+    <p class="index">Zaviks Tech · Shelf 01–03 · United Kingdom</p>
+    <h1>Software that<br />already works.</h1>
+    <div class="showroom-aside">
+      <p class="display-line">Then we make it yours.</p>
+      <p>
+        We build the product before a customer asks. You license the closest one. We change it, install it on your
+        systems, and stay on to maintain it.
       </p>
-      <div class="hero-actions">
-        <a class="btn btn-copper" routerLink="/shelf">Browse the shelf</a>
-        <a class="btn btn-ghost" routerLink="/contact">Start a conversation</a>
+      <div class="actions">
+        <a class="btn btn-ink" routerLink="/shelf">Browse the shelf</a>
+        <a class="text-link" routerLink="/contact">Start a conversation</a>
       </div>
-      <ol class="stage-row">
-        @for (stage of stages; track stage.n) {
-          <li>{{ stage.title }}</li>
-        }
-      </ol>
     </div>
-    <aside class="hero-card">
-      <p class="eyebrow">Open today</p>
+  </div>
+
+  <div class="rail">
+    <article class="rail-feature">
+      <div class="rail-meta">
+        <span>No. 01 · Marketplace</span>
+        <span class="live">Live demo</span>
+      </div>
       <app-product-mock [kind]="parkspace.mock" />
-      <div class="card-kicker">
-        <span>No. {{ parkspace.catalog }}</span>
-        <span class="badge">Live demo</span>
+      <div class="rail-foot">
+        <div>
+          <h2>{{ parkspace.name }}</h2>
+          <p>{{ parkspace.promise }} Commission is 20% of each booking.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-red" [href]="parkspace.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
+          <a class="text-link" [routerLink]="['/shelf', parkspace.slug]">Read the product</a>
+        </div>
       </div>
-      <h2>{{ parkspace.name }}</h2>
-      <p>{{ parkspace.promise }} The platform keeps 20% of each booking.</p>
-      <div class="card-actions">
-        <a class="btn btn-copper" [href]="parkspace.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
-        <a class="btn btn-line" [routerLink]="['/shelf', parkspace.slug]">Read the product</a>
-      </div>
-    </aside>
-  </div>
-</section>
-
-<section class="section facts">
-  <div class="wrap fact-grid">
-    <p><strong>3</strong><span>products on the shelf, ready to compare</span></p>
-    <p><strong>1</strong><span>you can try in the browser before you write to us</span></p>
-    <p><strong>Licence</strong><span>your own copy, not a rebuild from an empty repository</span></p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">The shelf</p>
-      <h2>Start from something that runs.</h2>
-      <p class="lede">Each card is a product with a shape, a stack, and a way to ask for it. ParkSpace is the one with a public demo.</p>
-    </div>
-    <div class="card-grid">
-      @for (product of products; track product.slug) {
-        <app-product-card [product]="product" />
+    </article>
+    <div class="rail-side">
+      @for (product of products.slice(1); track product.slug) {
+        <article>
+          <div class="rail-meta">
+            <span>No. {{ product.catalog }} · {{ product.category }}</span>
+            <span>{{ product.priceLabel }}</span>
+          </div>
+          <h2><a [routerLink]="['/shelf', product.slug]">{{ product.name }}</a></h2>
+          <p>{{ product.promise }}</p>
+          <a class="text-link" [routerLink]="['/shelf', product.slug]">View</a>
+        </article>
       }
     </div>
   </div>
 </section>
 
-<section class="section section-alt">
+<section class="section">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">How the work moves</p>
-      <h2>Six stages, from a prototype to a system you keep.</h2>
+    <div class="section-label">
+      <p class="index">How the work moves</p>
+      <a class="text-link" routerLink="/how-it-works">The full sequence</a>
     </div>
-    <ol class="stage-grid">
+    <ol class="ledger">
       @for (stage of stages; track stage.n) {
         <li>
           <span>{{ stage.n }}</span>
@@ -72,59 +64,54 @@
         </li>
       }
     </ol>
-    <p class="section-link"><a routerLink="/how-it-works">See what you do, and what we do</a></p>
   </div>
 </section>
 
-<section class="section">
+<section class="section section-tight">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">The engagement</p>
-      <h2>Three parts. Each one is priced on its own.</h2>
+    <div class="section-label">
+      <p class="index">The engagement</p>
     </div>
-    <div class="trio">
+    <div class="defs">
       <article>
-        <h3>Licence the base</h3>
-        <p>You take the product closest to the business. The starting figure is on the shelf. The quote confirms it.</p>
+        <h2>01 Licence</h2>
+        <p>You take the product closest to the business. The figure on the shelf is a start. The quote is the price.</p>
       </article>
       <article>
-        <h3>Shape it</h3>
-        <p>Brand, rules, and the features that have to change. We price that from the brief, not from a guessed package.</p>
+        <h2>02 Shape</h2>
+        <p>Brand, rules, and the features that have to change. Priced from the brief, not from a package chosen in advance.</p>
       </article>
       <article>
-        <h3>Keep it running</h3>
+        <h2>03 Keep</h2>
         <p>A maintenance plan for security updates, fixes, and a person who already knows the system.</p>
       </article>
     </div>
   </div>
 </section>
 
-<section class="section section-alt" id="plans">
+<section class="section">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">After launch</p>
-      <h2>Maintenance, when the product is in daily use.</h2>
+    <div class="section-label">
+      <p class="index">After launch</p>
+      <a class="text-link" routerLink="/pricing">What a quote includes</a>
     </div>
-    <div class="plan-grid">
+    <div class="rates">
       @for (plan of plans; track plan.name) {
-        <article class="plan" [class.featured]="plan.featured">
+        <article [class.is-on]="plan.featured">
           <h3>{{ plan.name }}</h3>
-          <p class="plan-price">{{ plan.price }} <small>/ {{ plan.period }}</small></p>
+          <p class="rate">{{ plan.price }}<small> / {{ plan.period }}</small></p>
           <p>{{ plan.summary }}</p>
         </article>
       }
     </div>
-    <p class="section-link"><a routerLink="/pricing">Prices, and what a quote includes</a></p>
   </div>
 </section>
 
-<section class="closing">
+<section class="closer">
   <div class="wrap">
+    <p class="index">Next</p>
     <h2>Tell us which product is closest.</h2>
     <p>We reply with a quote and a timeline. Nothing is charged on this website.</p>
-    <div class="hero-actions">
-      <a class="btn btn-copper" routerLink="/request">Request a product</a>
-      <a class="btn btn-ghost" routerLink="/shelf">Look at the shelf again</a>
-    </div>
+    <a class="btn btn-red" routerLink="/request">Request a product</a>
   </div>
 </section>

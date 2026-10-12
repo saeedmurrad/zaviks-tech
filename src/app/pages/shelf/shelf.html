@@ -1,8 +1,8 @@
 <header class="page-hero">
   <div class="wrap">
-    <p class="eyebrow">The shelf</p>
+    <p class="index">The shelf</p>
     <h1>Working software, ready to shape.</h1>
-    <p class="lede">Search by what the business does. ParkSpace can be opened now. The others are shown on a call.</p>
+    <p class="lede">ParkSpace can be opened now. The others are shown when you ask.</p>
   </div>
 </header>
 
@@ -54,9 +54,23 @@
         <button class="btn btn-ink" type="button" (click)="clear()">Clear filters</button>
       </div>
     } @else {
-      <div class="card-grid">
+      <div class="catalog">
         @for (product of results(); track product.slug) {
-          <app-product-card [product]="product" />
+          <article>
+            <app-product-mock [kind]="product.mock" />
+            <div>
+              <p class="index">No. {{ product.catalog }} · {{ product.category }} · {{ product.industry }}</p>
+              <h2><a [routerLink]="['/shelf', product.slug]">{{ product.name }}</a></h2>
+              <p>{{ product.promise }}</p>
+              @if (product.demo === 'live') {
+                <span class="live">Live demo</span>
+              }
+            </div>
+            <div class="catalog-end">
+              <p class="rate">{{ product.priceLabel }}</p>
+              <a class="text-link" [routerLink]="['/shelf', product.slug]">Open</a>
+            </div>
+          </article>
         }
       </div>
     }

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, HostListener, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, HostListener, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -20,6 +20,9 @@ export class App {
   readonly legalPages = legalPages;
   readonly menuOpen = signal(false);
   readonly year = new Date().getFullYear();
+  private readonly lockScroll = effect(() => {
+    this.document.body.classList.toggle('menu-open', this.menuOpen());
+  });
 
   constructor() {
     const router = inject(Router);

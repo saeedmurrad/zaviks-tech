@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Seo } from '../../core/seo';
 import { products } from '../../data/products';
-import { ProductCard } from '../../shared/product-card';
+import { ProductMock } from '../../shared/product-mock';
 
 @Component({
   selector: 'app-shelf',
-  imports: [ProductCard],
+  imports: [ProductMock, RouterLink],
   templateUrl: './shelf.html',
 })
 export class Shelf {

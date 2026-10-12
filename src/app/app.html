@@ -1,15 +1,10 @@
 <a class="skip" href="#content">Skip to content</a>
 
-<header class="site-header">
+<header class="site-header" [class.menu-on]="menuOpen()">
   <div class="wrap header-bar">
     <a class="brand" routerLink="/" (click)="closeMenu()">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
-        <rect x="3" y="6" width="26" height="2.2" rx="1" />
-        <rect x="6" y="12" width="20" height="2.2" rx="1" />
-        <rect x="9" y="18" width="14" height="2.2" rx="1" />
-        <rect x="12" y="24" width="8" height="2.2" rx="1" />
-      </svg>
-      <span>Zaviks <small>Tech</small></span>
+      <span class="brand-mark" aria-hidden="true"></span>
+      Zaviks<span>Tech</span>
     </a>
 
     <button
@@ -23,11 +18,11 @@
       <span class="burger" [class.open]="menuOpen()"></span>
     </button>
 
-    <nav id="site-nav" class="site-nav" [class.open]="menuOpen()" [attr.aria-label]="'Primary'">
+    <nav id="site-nav" class="site-nav" [class.open]="menuOpen()" aria-label="Primary">
       @for (item of nav; track item.path) {
         <a [routerLink]="item.path" routerLinkActive="is-active" (click)="closeMenu()">{{ item.label }}</a>
       }
-      <a class="btn btn-copper" routerLink="/contact" (click)="closeMenu()">Contact</a>
+      <a class="nav-contact" routerLink="/contact" (click)="closeMenu()">Contact</a>
     </nav>
   </div>
 </header>
@@ -39,14 +34,9 @@
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div>
-      <a class="brand brand-light" routerLink="/">
-        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
-          <rect x="3" y="6" width="26" height="2.2" rx="1" />
-          <rect x="6" y="12" width="20" height="2.2" rx="1" />
-          <rect x="9" y="18" width="14" height="2.2" rx="1" />
-          <rect x="12" y="24" width="8" height="2.2" rx="1" />
-        </svg>
-        <span>Zaviks <small>Tech</small></span>
+      <a class="brand" routerLink="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Zaviks<span>Tech</span>
       </a>
       <p>Ready-made software, licensed for your business, then shaped, deployed, and looked after.</p>
     </div>

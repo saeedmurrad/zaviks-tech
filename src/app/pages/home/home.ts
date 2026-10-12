@@ -3,12 +3,11 @@ import { RouterLink } from '@angular/router';
 import { absoluteUrl, Seo } from '../../core/seo';
 import { products } from '../../data/products';
 import { plans, site, stages } from '../../data/site';
-import { ProductCard } from '../../shared/product-card';
 import { ProductMock } from '../../shared/product-mock';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ProductCard, ProductMock],
+  imports: [RouterLink, ProductMock],
   templateUrl: './home.html',
 })
 export class Home {
