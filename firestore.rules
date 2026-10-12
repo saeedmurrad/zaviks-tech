@@ -1,14 +1,63 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /enquiries/{id} {
-      allow read, update, delete: if false;
-      allow create: if validEnquiry(request.resource.data);
+    match /users/{uid} {
+      allow read: if isAdmin() || isSelf(uid);
+      allow create: if isSelf(uid)
+        && validUser(request.resource.data)
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.createdAt == request.time;
+      allow update: if isSelf(uid)
+        && validUser(request.resource.data)
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
     }
+
+    match /enquiries/{id} {
+      allow read: if isAdmin() || ownsEnquiry();
+      allow create: if validEnquiry(request.resource.data)
+        && request.resource.data.status == 'new'
+        && (!('uid' in request.resource.data) || (isSignedIn() && request.resource.data.uid == request.auth.uid));
+      allow update: if adminUpdate() || customerAnswer();
+      allow delete: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
   }
+}
+
+function isSignedIn() {
+  return request.auth != null;
+}
+
+function isSelf(uid) {
+  return isSignedIn() && request.auth.uid == uid;
+}
+
+// Admins are a fixed list of verified emails. Keep it in step with `admins` in src/environments.
+function isAdmin() {
+  return isSignedIn()
+    && request.auth.token.email_verified == true
+    && request.auth.token.email in ['hello@zaviks.tech', 'saeedmurrad@gmail.com', 'smurrad@innovatixinc.com'];
+}
+
+function validUser(data) {
+  return data.keys().hasOnly(['name', 'email', 'company', 'phone', 'createdAt', 'updatedAt'])
+    && data.name is string && data.name.size() >= 2 && data.name.size() <= 120
+    && data.email is string && data.email.size() <= 160
+    && data.company is string && data.company.size() <= 160
+    && data.phone is string && data.phone.size() <= 40
+    && data.updatedAt == request.time;
+}
+
+// A signed-in customer sees requests sent from their account, plus guest requests from their verified email.
+function ownsEnquiry() {
+  return isSignedIn()
+    && (resource.data.uid == request.auth.uid
+      || (request.auth.token.email_verified == true && resource.data.email == request.auth.token.email));
 }
 
 function validEnquiry(data) {
@@ -21,7 +70,10 @@ function validEnquiry(data) {
       'productSlug',
       'message',
       'priority',
-      'createdAt'
+      'status',
+      'uid',
+      'createdAt',
+      'updatedAt'
     ])
     && data.type in ['contact', 'purchase', 'customisation']
     && data.name is string
@@ -40,5 +92,38 @@ function validEnquiry(data) {
     && data.message.size() >= 10
     && data.message.size() <= 4000
     && data.priority in ['standard', 'soon', 'urgent']
-    && data.createdAt == request.time;
+    && data.createdAt == request.time
+    && data.updatedAt == request.time;
+}
+
+function validStatus(status) {
+  return status in ['new', 'quoted', 'accepted', 'declined', 'in_development', 'testing', 'deployed', 'closed'];
+}
+
+// Admins change the status, the quote, and the note the customer sees. Nothing else.
+function adminUpdate() {
+  return isAdmin()
+    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'quote', 'adminNote', 'updatedAt'])
+    && validStatus(request.resource.data.status)
+    && request.resource.data.updatedAt == request.time
+    && (!('quote' in request.resource.data) || validQuote(request.resource.data.quote))
+    && (!('adminNote' in request.resource.data)
+      || (request.resource.data.adminNote is string && request.resource.data.adminNote.size() <= 2000));
+}
+
+function validQuote(quote) {
+  return quote.keys().hasOnly(['amount', 'timeline', 'note', 'sentAt'])
+    && quote.amount is string && quote.amount.size() <= 60
+    && quote.timeline is string && quote.timeline.size() <= 120
+    && quote.note is string && quote.note.size() <= 2000;
+}
+
+// The customer who sent the request may accept or decline a quote, and nothing more.
+function customerAnswer() {
+  return isSignedIn()
+    && resource.data.uid == request.auth.uid
+    && resource.data.status == 'quoted'
+    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
+    && request.resource.data.status in ['accepted', 'declined']
+    && request.resource.data.updatedAt == request.time;
 }

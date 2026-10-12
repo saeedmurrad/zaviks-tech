@@ -1,0 +1,60 @@
+<div class="admin-head">
+  <h1>Customers</h1>
+  <p class="muted">Everyone with an account. Guest requests appear under Requests.</p>
+</div>
+
+<div class="admin-toolbar">
+  <label class="search">
+    <span class="sr-only">Search</span>
+    <input
+      type="search"
+      placeholder="Search name, company, email"
+      [value]="query()"
+      (input)="query.set($any($event.target).value)"
+    />
+  </label>
+</div>
+
+<div class="admin-card">
+  @if (store.customers() === undefined) {
+    <p class="muted">Loading…</p>
+  } @else if (items().length === 0) {
+    <p class="muted">No customers yet.</p>
+  } @else {
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Company</th>
+          <th>Contact</th>
+          <th>Joined</th>
+          <th>Requests</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of items(); track c.uid) {
+          <tr>
+            <td>
+              <strong>{{ c.name || '—' }}</strong>
+            </td>
+            <td>{{ c.company || '—' }}</td>
+            <td>
+              <a [href]="'mailto:' + c.email">{{ c.email }}</a
+              ><small>{{ c.phone }}</small>
+            </td>
+            <td>{{ c.createdAt | date: 'd MMM yyyy' }}</td>
+            <td>
+              @if (requestCount(c.email) > 0) {
+                <a [routerLink]="['/admin/requests']" [queryParams]="{ q: c.email }">{{
+                  requestCount(c.email)
+                }}</a>
+              } @else {
+                0
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

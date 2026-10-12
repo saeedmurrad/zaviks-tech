@@ -29,9 +29,17 @@ npm run build:pages
 
 The static files are in `dist/zaviks-tech/browser`. Pushes to `main` deploy that folder with GitHub Actions.
 
+## Accounts and admin
+
+Customers can create an account (Firebase Auth, email and password) to see their requests, the quote sent for each one, and the project stage. Signed-in requests carry the customer's `uid`; guest requests sent from the same email appear once the address is verified.
+
+The admin panel at `/admin` lists requests, sends quotes, moves a request through its stages, and lists customers. Admins are a fixed list of verified emails, kept in two places that must match: the `admins` array in `src/environments/*.ts` (shows the admin UI) and `isAdmin()` in `firestore.rules` (the real gate).
+
+One-time setup in the Firebase console: Authentication > Get started > enable **Email/Password**.
+
 ## Enquiries
 
-Contact and request forms write to the `enquiries` collection. Rules allow a checked create and deny every read. The web config lives in `src/environments/environment.production.ts`. If that config is empty, the form offers an email instead of pretending the message was stored.
+Contact and request forms write to the `enquiries` collection. Rules allow a checked create; reads are limited to the owner and admins, and only admins (status, quote, note) and the owner (accept or decline a quote) can update. The web config lives in `src/environments/environment.production.ts`. If that config is empty, the form offers an email instead of pretending the message was stored.
 
 Deploy rule changes with:
 

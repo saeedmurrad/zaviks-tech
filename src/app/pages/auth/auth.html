@@ -1,0 +1,122 @@
+<section class="auth">
+  <div class="wrap auth-wrap">
+    <div class="auth-card">
+      <p class="eyebrow">
+        {{ mode() === 'login' ? 'Sign in' : mode() === 'register' ? 'New account' : 'Password' }}
+      </p>
+      <h1>{{ text().title }}</h1>
+      <p class="lede">{{ text().lede }}</p>
+
+      @if (!auth.enabled) {
+        <div class="notice">
+          <h2>Accounts are not available on this preview.</h2>
+          <p>Write to us instead and we will reply by email.</p>
+          <a class="btn" routerLink="/contact">Contact</a>
+        </div>
+      } @else if (done()) {
+        <div class="notice" role="status">
+          <h2>Check your inbox.</h2>
+          <p>If an account exists for that email, a reset link is on its way.</p>
+          <a class="btn" routerLink="/login">Back to sign in</a>
+        </div>
+      } @else {
+        <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          @if (mode() === 'register') {
+            <div class="form-row two">
+              <label>
+                Full name
+                <input
+                  formControlName="name"
+                  autocomplete="name"
+                  [attr.aria-invalid]="invalid('name')"
+                />
+                @if (invalid('name')) {
+                  <span class="field-error">Enter your name.</span>
+                }
+              </label>
+              <label>
+                <span>Company <span class="optional">(optional)</span></span>
+                <input formControlName="company" autocomplete="organization" />
+              </label>
+            </div>
+          }
+          <label>
+            Email
+            <input
+              formControlName="email"
+              type="email"
+              autocomplete="email"
+              [attr.aria-invalid]="invalid('email')"
+            />
+            @if (invalid('email')) {
+              <span class="field-error">Enter a valid email address.</span>
+            }
+          </label>
+          @if (mode() !== 'forgot') {
+            <label>
+              <span class="label-row">
+                Password
+                @if (mode() === 'login') {
+                  <a routerLink="/forgot">Forgot password?</a>
+                }
+              </span>
+              <input
+                formControlName="password"
+                type="password"
+                [autocomplete]="mode() === 'register' ? 'new-password' : 'current-password'"
+                [attr.aria-invalid]="invalid('password')"
+              />
+              @if (invalid('password')) {
+                <span class="field-error">{{
+                  mode() === 'register' ? 'Use at least 8 characters.' : 'Enter your password.'
+                }}</span>
+              }
+            </label>
+          }
+          @if (mode() === 'register') {
+            <label class="check">
+              <input type="checkbox" formControlName="terms" />
+              <span>
+                I accept the <a routerLink="/legal/terms">terms of sale</a> and the
+                <a routerLink="/legal/privacy">privacy policy</a>.
+              </span>
+            </label>
+            @if (invalid('terms')) {
+              <span class="field-error">Please accept the terms to continue.</span>
+            }
+          }
+          @if (error()) {
+            <p class="field-error" role="alert">{{ error() }}</p>
+          }
+          <button class="btn btn-accent btn-lg full" type="submit" [disabled]="busy()">
+            @switch (mode()) {
+              @case ('login') {
+                {{ busy() ? 'Signing in…' : 'Sign in' }}
+              }
+              @case ('register') {
+                {{ busy() ? 'Creating account…' : 'Create account' }}
+              }
+              @case ('forgot') {
+                {{ busy() ? 'Sending…' : 'Send reset link' }}
+              }
+            }
+          </button>
+        </form>
+        <p class="auth-switch">
+          @switch (mode()) {
+            @case ('login') {
+              New here? <a routerLink="/register">Create an account</a>
+            }
+            @case ('register') {
+              Already have an account? <a routerLink="/login">Sign in</a>
+            }
+            @case ('forgot') {
+              Remembered it? <a routerLink="/login">Sign in</a>
+            }
+          }
+        </p>
+      }
+    </div>
+    <p class="auth-foot muted">No account is needed to browse the shelf or send a request.</p>
+  </div>
+</section>

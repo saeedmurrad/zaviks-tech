@@ -15,12 +15,31 @@
       }
       <div class="mobile-cta">
         <a class="btn btn-ghost" routerLink="/contact" (click)="closeMenu()">Contact</a>
+        @if (auth.user()) {
+          <a class="btn btn-ghost" routerLink="/account" (click)="closeMenu()">Your account</a>
+        } @else if (auth.enabled) {
+          <a class="btn btn-ghost" routerLink="/login" (click)="closeMenu()">Sign in</a>
+        }
         <a class="btn btn-accent" routerLink="/request" (click)="closeMenu()">Request a product</a>
       </div>
     </nav>
 
     <div class="header-actions">
       <a class="nav-contact" routerLink="/contact" routerLinkActive="is-active">Contact</a>
+      @if (auth.user(); as user) {
+        <a
+          class="nav-contact nav-account"
+          [routerLink]="auth.isAdmin() ? '/admin' : '/account'"
+          routerLinkActive="is-active"
+        >
+          <span class="avatar" aria-hidden="true">{{
+            (user.displayName || user.email).charAt(0).toUpperCase()
+          }}</span>
+          {{ auth.isAdmin() ? 'Admin' : 'Account' }}
+        </a>
+      } @else if (auth.user() === null && auth.enabled) {
+        <a class="nav-contact" routerLink="/login" routerLinkActive="is-active">Sign in</a>
+      }
       <a class="btn btn-sm" routerLink="/request">Request a product</a>
     </div>
 

@@ -14,6 +14,7 @@ import { filter } from 'rxjs';
 import { legalPages } from './data/legal';
 import { products } from './data/products';
 import { nav, site } from './data/site';
+import { AuthService } from './core/auth';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ import { nav, site } from './data/site';
 })
 export class App {
   private readonly document = inject(DOCUMENT);
+  readonly auth = inject(AuthService);
   readonly site = site;
   readonly nav = nav;
   readonly products = products;

@@ -1,6 +1,7 @@
 import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/auth';
 import { EnquiryService, type EnquiryPriority, type EnquiryType } from '../../core/enquiry';
 import { Seo } from '../../core/seo';
 import { productBySlug, products } from '../../data/products';
@@ -12,6 +13,7 @@ import { productBySlug, products } from '../../data/products';
 })
 export class Request {
   private readonly enquiries = inject(EnquiryService);
+  readonly auth = inject(AuthService);
   readonly products = products;
   readonly tried = signal(false);
   readonly status = signal<'idle' | 'sending' | 'sent' | 'mailto' | 'error'>('idle');
@@ -47,6 +49,16 @@ export class Request {
       if (intent === 'purchase' || intent === 'customisation') {
         this.form.controls.intent.setValue(intent);
       }
+      void this.auth.ready.then(() => {
+        const user = this.auth.user();
+        const profile = this.auth.profile();
+        if (!user) return;
+        const c = this.form.controls;
+        if (!c.name.value) c.name.setValue(profile?.name || user.displayName);
+        if (!c.email.value) c.email.setValue(user.email);
+        if (!c.company.value && profile?.company) c.company.setValue(profile.company);
+        if (!c.phone.value && profile?.phone) c.phone.setValue(profile.phone);
+      });
     });
   }
 
@@ -75,6 +87,7 @@ export class Request {
         ? `${value.message.trim()}\n\nLinks to documents:\n${value.links.trim()}`
         : value.message,
       priority: value.priority,
+      uid: this.auth.user()?.uid,
     };
     this.mailtoHref.set(this.enquiries.mailto(enquiry));
     if (!this.enquiries.configured()) {

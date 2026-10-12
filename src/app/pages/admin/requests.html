@@ -1,0 +1,164 @@
+<div class="admin-head">
+  <h1>Requests</h1>
+  <p class="muted">Every enquiry, licence request, and customisation brief.</p>
+</div>
+
+<div class="admin-toolbar">
+  <div class="pills">
+    @for (f of filters; track f.id) {
+      <button type="button" [attr.aria-pressed]="filter() === f.id" (click)="setFilter(f.id)">
+        {{ f.label }}
+      </button>
+    }
+  </div>
+  <label class="search">
+    <span class="sr-only">Search</span>
+    <app-icon name="eye" [size]="16" />
+    <input
+      type="search"
+      placeholder="Search name, company, product"
+      [value]="query()"
+      (input)="query.set($any($event.target).value)"
+    />
+  </label>
+</div>
+
+<div class="admin-split" [class.has-detail]="selected()">
+  <div class="admin-card">
+    @if (store.requests() === undefined) {
+      <p class="muted">Loading…</p>
+    } @else if (items().length === 0) {
+      <p class="muted">Nothing matches.</p>
+    } @else {
+      <table class="table clickable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Priority</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of items(); track item.id) {
+            <tr [class.is-selected]="selectedId() === item.id" (click)="select(item)">
+              <td>{{ item.createdAt | date: 'd MMM' }}</td>
+              <td>
+                <strong>{{ item.name }}</strong
+                ><small>{{ item.company || item.email }}</small>
+              </td>
+              <td>
+                {{ item.productName }}<small>{{ item.type }}</small>
+              </td>
+              <td>{{ item.priority }}</td>
+              <td>
+                <span class="status" [class]="'status status-' + item.status">{{
+                  labels[item.status]
+                }}</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (selected(); as item) {
+    <aside class="detail">
+      <div class="detail-head">
+        <div>
+          <p class="eyebrow">{{ item.productName }} · {{ item.type }}</p>
+          <h2>{{ item.name }}</h2>
+          <p class="muted">
+            {{ item.company || 'No company given' }} ·
+            {{ item.createdAt | date: 'd MMM yyyy, HH:mm' }}
+          </p>
+        </div>
+        <button class="icon-btn" type="button" (click)="select(null)" aria-label="Close">×</button>
+      </div>
+
+      <div class="detail-meta">
+        <div>
+          <small>Email</small><a [href]="'mailto:' + item.email">{{ item.email }}</a>
+        </div>
+        <div>
+          <small>Phone</small><span>{{ item.phone || '—' }}</span>
+        </div>
+        <div>
+          <small>Priority</small><span>{{ item.priority }}</span>
+        </div>
+        <div>
+          <small>Account</small><span>{{ item.uid ? 'Signed in' : 'Guest' }}</span>
+        </div>
+      </div>
+
+      <p class="eyebrow">Message</p>
+      <p class="pre">{{ item.message }}</p>
+
+      @if (done()) {
+        <p class="ok" role="status">{{ done() }}</p>
+      }
+      @if (error()) {
+        <p class="field-error" role="alert">{{ error() }}</p>
+      }
+
+      <form class="form detail-form" [formGroup]="quoteForm" (ngSubmit)="sendQuote()" novalidate>
+        <h3>{{ item.quote ? 'Update the quote' : 'Send a quote' }}</h3>
+        <div class="form-row two">
+          <label>
+            Price
+            <input formControlName="amount" placeholder="£3,200 + £149 / month" />
+          </label>
+          <label>
+            Timeline
+            <input formControlName="timeline" placeholder="4–6 weeks from brief" />
+          </label>
+        </div>
+        <label>
+          Note to the customer
+          <textarea
+            formControlName="note"
+            rows="3"
+            placeholder="What the quote covers, and what it does not."
+          ></textarea>
+        </label>
+        <div class="actions">
+          <button
+            class="btn btn-accent btn-sm"
+            type="submit"
+            [disabled]="busy() || quoteForm.invalid"
+          >
+            {{ busy() ? 'Saving…' : 'Save quote' }}
+          </button>
+          <a class="btn btn-ghost btn-sm" [href]="mailto(item)">Email the customer</a>
+        </div>
+      </form>
+
+      <form class="form detail-form" [formGroup]="statusForm" (ngSubmit)="saveStatus()" novalidate>
+        <h3>Status</h3>
+        <label>
+          Stage
+          <select formControlName="status">
+            @for (s of statuses; track s) {
+              <option [value]="s">{{ labels[s] }}</option>
+            }
+          </select>
+        </label>
+        <label>
+          Message shown in the customer's account
+          <textarea
+            formControlName="adminNote"
+            rows="2"
+            placeholder="Short update the customer can read."
+          ></textarea>
+        </label>
+        <div class="actions">
+          <button class="btn btn-sm" type="submit" [disabled]="busy()">
+            {{ busy() ? 'Saving…' : 'Update status' }}
+          </button>
+        </div>
+      </form>
+    </aside>
+  }
+</div>

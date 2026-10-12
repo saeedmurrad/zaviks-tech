@@ -1,0 +1,43 @@
+<div class="admin-head">
+  <h1>Products</h1>
+  <p class="muted">
+    The shelf as customers see it. The catalogue is published with the site, so price or copy
+    changes go out with the next deploy.
+  </p>
+</div>
+
+<div class="admin-card">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Starting price</th>
+        <th>Delivery</th>
+        <th>Demo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of products; track p.slug) {
+        <tr>
+          <td>
+            <strong>{{ p.name }}</strong
+            ><small>No. {{ p.catalog }}</small>
+          </td>
+          <td>{{ p.category }} · {{ p.industry }}</td>
+          <td>{{ p.priceLabel }}</td>
+          <td>{{ p.leadTime }}</td>
+          <td>
+            @if (p.demo === 'live') {
+              <span class="status status-live">Live</span>
+            } @else {
+              <span class="status status-planned">On request</span>
+            }
+          </td>
+          <td><a class="text-link" [routerLink]="['/shelf', p.slug]">View</a></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

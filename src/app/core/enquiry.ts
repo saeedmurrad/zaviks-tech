@@ -15,6 +15,8 @@ export interface Enquiry {
   productSlug: string;
   message: string;
   priority: EnquiryPriority;
+  /** Set when the sender is signed in, so the request shows in their account. */
+  uid?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +33,8 @@ export class EnquiryService {
     }
 
     const { getApps, initializeApp } = await import('firebase/app');
-    const { addDoc, collection, getFirestore, serverTimestamp } = await import('firebase/firestore');
+    const { addDoc, collection, getFirestore, serverTimestamp } =
+      await import('firebase/firestore');
     const app = getApps()[0] ?? initializeApp(environment.firebase);
     const db = getFirestore(app);
     await addDoc(collection(db, 'enquiries'), {
@@ -43,7 +46,10 @@ export class EnquiryService {
       productSlug: enquiry.productSlug,
       message: enquiry.message.trim(),
       priority: enquiry.priority,
+      status: 'new',
+      ...(enquiry.uid ? { uid: enquiry.uid } : {}),
       createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     });
     return 'stored';
   }

@@ -16,6 +16,8 @@ export interface PageMeta {
   description: string;
   path: string;
   jsonLd?: unknown;
+  /** Keep private pages such as the account and admin areas out of search results. */
+  noindex?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +33,10 @@ export class Seo {
 
     this.title.setTitle(fullTitle);
     this.meta.updateTag({ name: 'description', content: page.description });
-    this.meta.updateTag({ name: 'robots', content: 'index,follow' });
+    this.meta.updateTag({
+      name: 'robots',
+      content: page.noindex ? 'noindex,nofollow' : 'index,follow',
+    });
     this.meta.updateTag({ property: 'og:title', content: fullTitle });
     this.meta.updateTag({ property: 'og:description', content: page.description });
     this.meta.updateTag({ property: 'og:url', content: url });

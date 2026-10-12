@@ -1,0 +1,192 @@
+@if (auth.user(); as user) {
+  <header class="page-hero left account-hero">
+    <div class="wrap">
+      <p class="eyebrow">Your account</p>
+      <h1>Hi {{ firstName() }}.</h1>
+      <p class="lede">{{ user.email }}</p>
+      @if (auth.isAdmin()) {
+        <div class="actions">
+          <a class="btn btn-sm" routerLink="/admin"
+            >Open the admin panel <app-icon class="arrow" name="arrow" [size]="16"
+          /></a>
+        </div>
+      }
+    </div>
+  </header>
+
+  <section class="section section-tight">
+    <div class="wrap">
+      @if (!user.emailVerified) {
+        <div class="banner">
+          <app-icon name="shield" [size]="20" />
+          <div>
+            <strong>Verify your email.</strong>
+            We sent a link to {{ user.email }}. Once verified, requests you sent as a guest appear
+            here too.
+          </div>
+          <div class="actions">
+            @if (verifySent()) {
+              <span class="muted">Sent again.</span>
+            } @else {
+              <button class="btn btn-sm btn-ghost" type="button" (click)="resend()">Resend</button>
+            }
+            <button class="btn btn-sm btn-ghost" type="button" (click)="checkVerified()">
+              I have verified
+            </button>
+          </div>
+        </div>
+      }
+      @if (error()) {
+        <p class="field-error" role="alert">{{ error() }}</p>
+      }
+
+      <div class="account-layout">
+        <div>
+          <div class="section-head">
+            <h2>Your requests</h2>
+            <a class="btn btn-sm" routerLink="/request">New request</a>
+          </div>
+
+          @if (items() === undefined) {
+            <p class="muted">Loading your requests…</p>
+          } @else if (items()!.length === 0) {
+            <div class="empty-card">
+              <h3>No requests yet.</h3>
+              <p class="muted">Pick a product from the shelf and tell us what should change.</p>
+              <a class="btn" routerLink="/shelf">Browse the shelf</a>
+            </div>
+          } @else {
+            <div class="request-list">
+              @for (item of items(); track item.id) {
+                <article class="request" [class.open]="open() === item.id">
+                  <button
+                    class="request-head"
+                    type="button"
+                    (click)="toggle(item.id)"
+                    [attr.aria-expanded]="open() === item.id"
+                  >
+                    <div>
+                      <h3>{{ item.productName }}</h3>
+                      <p class="muted">
+                        {{
+                          item.type === 'customisation'
+                            ? 'Customisation'
+                            : item.type === 'purchase'
+                              ? 'Licence'
+                              : 'Enquiry'
+                        }}
+                        · {{ item.createdAt | date: 'd MMM yyyy' }}
+                      </p>
+                    </div>
+                    <span class="status" [class]="'status status-' + item.status">{{
+                      labels[item.status]
+                    }}</span>
+                  </button>
+
+                  @if (open() === item.id) {
+                    <div class="request-body">
+                      @if (onTrack(item.status)) {
+                        <ol class="track" aria-label="Progress">
+                          @for (step of steps; track step; let i = $index) {
+                            <li
+                              [class.done]="i <= stepIndex(item.status)"
+                              [class.current]="i === stepIndex(item.status)"
+                            >
+                              <span></span>{{ labels[step] }}
+                            </li>
+                          }
+                        </ol>
+                      }
+
+                      @if (item.quote; as quote) {
+                        <div class="quote">
+                          <p class="eyebrow">Your quote</p>
+                          <div class="quote-grid">
+                            <div>
+                              <small>Price</small><strong>{{ quote.amount }}</strong>
+                            </div>
+                            <div>
+                              <small>Timeline</small><strong>{{ quote.timeline }}</strong>
+                            </div>
+                          </div>
+                          @if (quote.note) {
+                            <p>{{ quote.note }}</p>
+                          }
+                          @if (item.status === 'quoted' && item.uid === user.uid) {
+                            <div class="actions">
+                              <button
+                                class="btn btn-accent"
+                                type="button"
+                                [disabled]="busyId() === item.id"
+                                (click)="respond(item, 'accepted')"
+                              >
+                                Accept quote
+                              </button>
+                              <button
+                                class="btn btn-ghost"
+                                type="button"
+                                [disabled]="busyId() === item.id"
+                                (click)="respond(item, 'declined')"
+                              >
+                                Decline
+                              </button>
+                            </div>
+                          } @else if (item.status === 'quoted') {
+                            <p class="muted">Reply by email to accept this quote.</p>
+                          }
+                        </div>
+                      }
+
+                      @if (item.adminNote) {
+                        <div class="note-card">
+                          <p class="eyebrow">From Zaviks Tech</p>
+                          <p>{{ item.adminNote }}</p>
+                        </div>
+                      }
+
+                      <p class="eyebrow">What you asked for</p>
+                      <p class="pre">{{ item.message }}</p>
+                    </div>
+                  }
+                </article>
+              }
+            </div>
+          }
+        </div>
+
+        <aside class="account-side">
+          <form class="card" [formGroup]="form" (ngSubmit)="save()" novalidate>
+            <h3>Profile</h3>
+            <label>
+              Name
+              <input formControlName="name" autocomplete="name" />
+            </label>
+            <label>
+              Company
+              <input formControlName="company" autocomplete="organization" />
+            </label>
+            <label>
+              Phone
+              <input formControlName="phone" type="tel" autocomplete="tel" />
+            </label>
+            <div class="actions">
+              <button class="btn btn-sm" type="submit" [disabled]="saving()">
+                {{ saving() ? 'Saving…' : 'Save' }}
+              </button>
+              @if (saved()) {
+                <span class="muted">Saved.</span>
+              }
+            </div>
+          </form>
+          <button class="btn btn-ghost full" type="button" (click)="logout()">Sign out</button>
+        </aside>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="section">
+    <div class="wrap empty">
+      <p class="muted">Loading your account…</p>
+    </div>
+  </section>
+}

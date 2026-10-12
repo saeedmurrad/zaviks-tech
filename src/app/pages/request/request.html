@@ -14,7 +14,14 @@
       <div class="notice" role="status">
         <h2>Request received.</h2>
         <p>We will reply by email with a quote, or with questions if the brief needs them.</p>
-        <a class="btn" routerLink="/shelf">Back to the shelf</a>
+        <div class="actions">
+          @if (auth.user()) {
+            <a class="btn" routerLink="/account">Track it in your account</a>
+          } @else if (auth.enabled) {
+            <a class="btn" routerLink="/register">Create an account to track it</a>
+          }
+          <a class="btn btn-ghost" routerLink="/shelf">Back to the shelf</a>
+        </div>
       </div>
     } @else {
       <form class="form form-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>

@@ -1,0 +1,49 @@
+@if (auth.user(); as user) {
+  <div class="admin">
+    <aside class="admin-nav">
+      <p class="eyebrow">Admin</p>
+      <nav aria-label="Admin">
+        @for (link of links; track link.path) {
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="is-active"
+            [routerLinkActiveOptions]="{ exact: link.exact }"
+          >
+            <app-icon [name]="link.icon" [size]="18" />
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+      <div class="admin-nav-foot">
+        <button
+          class="btn btn-sm btn-ghost"
+          type="button"
+          (click)="store.load(true)"
+          [disabled]="store.loading()"
+        >
+          {{ store.loading() ? 'Refreshing…' : 'Refresh data' }}
+        </button>
+        <a class="muted" routerLink="/account">Your account</a>
+      </div>
+    </aside>
+    <div class="admin-main">
+      @if (!user.emailVerified) {
+        <div class="banner">
+          <app-icon name="shield" [size]="20" />
+          <div>
+            <strong>Verify your email to use the admin panel.</strong>
+            The database only accepts admin changes from a verified address.
+          </div>
+        </div>
+      }
+      @if (store.error()) {
+        <p class="field-error" role="alert">{{ store.error() }}</p>
+      }
+      <router-outlet />
+    </div>
+  </div>
+} @else {
+  <section class="section">
+    <div class="wrap empty"><p class="muted">Loading…</p></div>
+  </section>
+}

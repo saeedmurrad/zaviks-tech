@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminGuard, authGuard } from './core/guards';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,49 @@ export const routes: Routes = [
   {
     path: 'legal/:page',
     loadComponent: () => import('./pages/legal/legal').then((m) => m.Legal),
+  },
+  {
+    path: 'login',
+    data: { mode: 'login' },
+    loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),
+  },
+  {
+    path: 'register',
+    data: { mode: 'register' },
+    loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),
+  },
+  {
+    path: 'forgot',
+    data: { mode: 'forgot' },
+    loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),
+  },
+  {
+    path: 'account',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/account/account').then((m) => m.Account),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./pages/admin/admin').then((m) => m.Admin),
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./pages/admin/overview').then((m) => m.AdminOverview),
+      },
+      {
+        path: 'requests',
+        loadComponent: () => import('./pages/admin/requests').then((m) => m.AdminRequests),
+      },
+      {
+        path: 'customers',
+        loadComponent: () => import('./pages/admin/customers').then((m) => m.AdminCustomers),
+      },
+      {
+        path: 'products',
+        loadComponent: () => import('./pages/admin/products').then((m) => m.AdminProducts),
+      },
+    ],
   },
   {
     path: '404',
