@@ -3,11 +3,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { absoluteUrl, Seo } from '../../core/seo';
 import { productBySlug, products, type Product } from '../../data/products';
+import { ProductCard } from '../../shared/product-card';
 import { ProductMock } from '../../shared/product-mock';
 
 @Component({
   selector: 'app-product',
-  imports: [RouterLink, ProductMock],
+  imports: [RouterLink, ProductMock, ProductCard],
   templateUrl: './product.html',
 })
 export class ProductPage {

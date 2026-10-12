@@ -1,12 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { EnquiryService } from '../../core/enquiry';
 import { Seo } from '../../core/seo';
 import { site } from '../../data/site';
 
 @Component({
   selector: 'app-contact',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './contact.html',
 })
 export class Contact {
@@ -27,7 +28,8 @@ export class Contact {
   constructor() {
     inject(Seo).set({
       title: 'Contact',
-      description: 'Write to Zaviks Tech about a shelf product, a customisation, or a maintenance plan.',
+      description:
+        'Write to Zaviks Tech about a shelf product, a customisation, or a maintenance plan.',
       path: '/contact',
     });
   }

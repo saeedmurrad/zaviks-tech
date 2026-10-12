@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Seo } from '../../core/seo';
+import { site } from '../../data/site';
 
 @Component({
   selector: 'app-about',
@@ -8,6 +9,8 @@ import { Seo } from '../../core/seo';
   templateUrl: './about.html',
 })
 export class About {
+  readonly site = site;
+
   constructor() {
     inject(Seo).set({
       title: 'About',

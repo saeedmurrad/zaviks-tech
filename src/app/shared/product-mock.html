@@ -1,64 +1,120 @@
-@switch (kind()) {
-  @case ('parkspace') {
-    <div class="ui ui-park" aria-hidden="true">
-      <div class="ui-bar"><strong>ParkSpace</strong><span>King’s Cross · now</span></div>
-      <div class="ui-body">
-        <ul>
-          <li class="on">
-            <b>Caledonian Road</b>
-            <span>£4.50</span>
-            <em>4 min walk · covered · EV</em>
-          </li>
-          <li>
-            <b>York Way</b>
-            <span>£3.80</span>
-            <em>7 min · gated</em>
-          </li>
-          <li>
-            <b>Wharfdale Road</b>
-            <span>£6.00</span>
-            <em>9 min · CCTV</em>
-          </li>
-        </ul>
-        <div class="ui-map">
-          <i class="h"></i>
-          <i class="v"></i>
-          <span class="pin"></span>
-          <small>Selected</small>
+<div class="window" aria-hidden="true">
+  <div class="window-bar">
+    <i></i><i></i><i></i>
+    @switch (kind()) {
+      @case ('parkspace') {
+        <span>app.parkspace.co</span>
+      }
+      @case ('clientline') {
+        <span>crm.clientline.app</span>
+      }
+      @case ('stockroom') {
+        <span>stockroom.app/inventory</span>
+      }
+    }
+  </div>
+  @switch (kind()) {
+    @case ('parkspace') {
+      <div class="ui ui-park">
+        <div class="ui-bar"><strong>ParkSpace</strong><span>King’s Cross · now</span></div>
+        <div class="ui-body">
+          <ul>
+            <li class="on">
+              <b>Caledonian Road</b>
+              <span>£4.50</span>
+              <em>4 min walk · covered · EV</em>
+            </li>
+            <li>
+              <b>York Way</b>
+              <span>£3.80</span>
+              <em>7 min · gated</em>
+            </li>
+            <li>
+              <b>Wharfdale Road</b>
+              <span>£6.00</span>
+              <em>9 min · CCTV</em>
+            </li>
+          </ul>
+          <div class="ui-map">
+            <i class="h"></i>
+            <i class="v"></i>
+            <span class="pin"></span>
+            <small>Selected</small>
+          </div>
         </div>
       </div>
-    </div>
+    }
+    @case ('clientline') {
+      <div class="ui ui-crm">
+        <div class="ui-bar"><strong>Clientline</strong><span>Due today · 4</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Stage</th>
+              <th>Next</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hart &amp; Co</td>
+              <td><i>Talking</i></td>
+              <td>Tue</td>
+            </tr>
+            <tr class="on">
+              <td>North Mill</td>
+              <td><i class="hot">Proposal</i></td>
+              <td>Today</td>
+            </tr>
+            <tr>
+              <td>Field Office</td>
+              <td><i>New</i></td>
+              <td>Fri</td>
+            </tr>
+            <tr>
+              <td>Ash Lane</td>
+              <td><i>Won</i></td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
+    @case ('stockroom') {
+      <div class="ui ui-stock">
+        <div class="ui-bar"><strong>Stockroom</strong><span>On hand</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Oak chair</td>
+              <td>18</td>
+              <td><b class="w72"></b></td>
+            </tr>
+            <tr>
+              <td>Linen shade</td>
+              <td>6</td>
+              <td><b class="w40"></b></td>
+            </tr>
+            <tr class="low">
+              <td>Wool throw</td>
+              <td>3</td>
+              <td><b class="w24"></b></td>
+            </tr>
+            <tr>
+              <td>Brass hook</td>
+              <td>42</td>
+              <td><b class="w88"></b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
   }
-  @case ('clientline') {
-    <div class="ui ui-crm" aria-hidden="true">
-      <div class="ui-bar"><strong>Clientline</strong><span>Due today · 4</span></div>
-      <table>
-        <thead>
-          <tr><th>Company</th><th>Stage</th><th>Next</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Hart &amp; Co</td><td><i>Talking</i></td><td>Tue</td></tr>
-          <tr class="on"><td>North Mill</td><td><i class="hot">Proposal</i></td><td>Today</td></tr>
-          <tr><td>Field Office</td><td><i>New</i></td><td>Fri</td></tr>
-          <tr><td>Ash Lane</td><td><i>Won</i></td><td>—</td></tr>
-        </tbody>
-      </table>
-    </div>
-  }
-  @case ('stockroom') {
-    <div class="ui ui-stock" aria-hidden="true">
-      <div class="ui-bar"><strong>Stockroom</strong><span>On hand</span></div>
-      <table>
-        <thead>
-          <tr><th>Item</th><th>Qty</th><th>Level</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Oak chair</td><td>18</td><td><b class="w72"></b></td></tr>
-          <tr><td>Linen shade</td><td>6</td><td><b class="w40"></b></td></tr>
-          <tr class="low"><td>Wool throw</td><td>3</td><td><b class="w24"></b></td></tr>
-          <tr><td>Brass hook</td><td>42</td><td><b class="w88"></b></td></tr>
-        </tbody>
-      </table>
-    </div>
-  }
-}
+</div>

@@ -3,52 +3,113 @@
     <p class="eyebrow">Pricing</p>
     <h1>A starting price, then a quote that names the work.</h1>
     <p class="lede">
-      Three fees, kept separate so you can see what you are paying for. Figures on this page are starting points. The quote is the price.
+      Three fees, kept separate so you can see what you are paying for. The quote is the price.
     </p>
   </div>
 </header>
 
-<section class="section">
-  <div class="wrap trio">
-    <article>
-      <h2>Base licence</h2>
-      <p>ParkSpace is quoted for the business. Clientline starts from £3,200. Stockroom starts from £2,400.</p>
-      <p>That fee licenses your copy. It is not a sale of the product to the exclusion of anyone else.</p>
+<section class="section section-tight">
+  <div class="wrap grid-3">
+    <article class="card">
+      <span class="icon-box" aria-hidden="true">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20.5 7.3 12 2 3.5 7.3v9.4L12 22l8.5-5.3Z" />
+          <path d="M12 22V12M3.5 7.3 12 12l8.5-4.7" />
+        </svg>
+      </span>
+      <h3>Base licence</h3>
+      <p>
+        Licenses your own copy of the product. ParkSpace is quoted; Clientline starts from £3,200
+        and Stockroom from £2,400.
+      </p>
     </article>
-    <article>
-      <h2>Customisation</h2>
-      <p>Priced per request, after we have read what has to change. Not a bundle you pick before the conversation, and not an open hourly tab.</p>
+    <article class="card">
+      <span class="icon-box" aria-hidden="true">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"
+          />
+        </svg>
+      </span>
+      <h3>Customisation</h3>
+      <p>
+        Priced per request, after we have read what has to change. Not a bundle, and not an open
+        hourly tab.
+      </p>
     </article>
-    <article>
-      <h2>Maintenance</h2>
-      <p>A monthly plan once the system is live. You can end it at the next renewal. It is not bundled silently into the first invoice.</p>
+    <article class="card">
+      <span class="icon-box" aria-hidden="true">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12a9 9 0 1 1-9-9" />
+          <path d="M21 3v6h-6" />
+        </svg>
+      </span>
+      <h3>Maintenance</h3>
+      <p>
+        A monthly plan once the system is live. End it at any renewal. Never bundled silently into
+        the first invoice.
+      </p>
     </article>
   </div>
 </section>
 
-<section class="section section-alt">
+<section class="section section-soft">
   <div class="wrap">
-    <div class="section-head">
-      <h2>Maintenance plans</h2>
-      <p class="lede">These are the shapes we quote from. A plan can be adjusted when the product needs something the list does not cover.</p>
+    <div class="section-head center">
+      <div>
+        <p class="eyebrow">Maintenance plans</p>
+        <h2>Pick the level of cover you need.</h2>
+        <p class="lede">
+          These are the shapes we quote from. A plan can be adjusted when the product needs it.
+        </p>
+      </div>
     </div>
     <div class="plan-grid">
       @for (plan of plans; track plan.name) {
         <article class="plan" [class.featured]="plan.featured">
           @if (plan.featured) {
-            <p class="badge">Usual choice</p>
+            <span class="badge">Most common</span>
           }
           <h3>{{ plan.name }}</h3>
-          <p class="plan-price">{{ plan.price }} <small>/ {{ plan.period }}</small></p>
+          <p class="plan-price">{{ plan.price }}<small>/ month</small></p>
           <p>{{ plan.summary }}</p>
-          <ul class="feature-list">
+          <ul class="check-list">
             @for (point of plan.points; track point) {
               <li>{{ point }}</li>
             }
           </ul>
+          <a class="btn" [class.btn-ghost]="!plan.featured" routerLink="/request"
+            >Ask for a quote</a
+          >
         </article>
       }
     </div>
-    <p class="section-link"><a routerLink="/request">Ask for a quote</a></p>
   </div>
 </section>

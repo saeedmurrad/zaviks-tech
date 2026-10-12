@@ -2,17 +2,31 @@
   <div class="wrap">
     <p class="eyebrow">Contact</p>
     <h1>Tell us what you are trying to run.</h1>
-    <p class="lede">A short note is enough. If you already know the product, the request form is the faster path.</p>
+    <p class="lede">
+      A short note is enough. If you already know the product, the request form is the faster path.
+    </p>
   </div>
 </header>
 
-<section class="section">
+<section class="section section-tight">
   <div class="wrap contact-layout">
-    <div class="prose">
-      <h2>Studio</h2>
-      <p>{{ site.location }}</p>
-      <p><a [href]="'mailto:' + site.email">{{ site.email }}</a></p>
-      <p>We read messages on business days and reply by email. This form does not create an account.</p>
+    <div class="contact-info">
+      <div class="item">
+        <span class="label">Email</span>
+        <a [href]="'mailto:' + site.email">{{ site.email }}</a>
+      </div>
+      <div class="item">
+        <span class="label">Location</span>
+        <span>{{ site.location }}</span>
+      </div>
+      <div class="item">
+        <span class="label">Response</span>
+        <span>By email, on business days</span>
+      </div>
+      <div class="item">
+        <span class="label">Know the product already?</span>
+        <a routerLink="/request">Request a product →</a>
+      </div>
     </div>
 
     @if (status() === 'sent') {
@@ -21,7 +35,7 @@
         <p>We will reply by email. If you do not hear back, write to {{ site.email }} directly.</p>
       </div>
     } @else {
-      <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <form class="form form-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="hp" aria-hidden="true">
           <label>
             Website
@@ -31,14 +45,23 @@
         <div class="form-row two">
           <label>
             Name
-            <input formControlName="name" autocomplete="name" [attr.aria-invalid]="invalid('name')" />
+            <input
+              formControlName="name"
+              autocomplete="name"
+              [attr.aria-invalid]="invalid('name')"
+            />
             @if (invalid('name')) {
               <span class="field-error">Enter your name.</span>
             }
           </label>
           <label>
             Email
-            <input formControlName="email" type="email" autocomplete="email" [attr.aria-invalid]="invalid('email')" />
+            <input
+              formControlName="email"
+              type="email"
+              autocomplete="email"
+              [attr.aria-invalid]="invalid('email')"
+            />
             @if (invalid('email')) {
               <span class="field-error">Enter a valid email address.</span>
             }
@@ -50,18 +73,22 @@
             <input formControlName="company" autocomplete="organization" />
           </label>
           <label>
-            Phone <span class="optional">optional</span>
+            <span>Phone <span class="optional">(optional)</span></span>
             <input formControlName="phone" type="tel" autocomplete="tel" />
           </label>
         </div>
         <label>
           Message
-          <textarea formControlName="message" rows="6" [attr.aria-invalid]="invalid('message')"></textarea>
+          <textarea
+            formControlName="message"
+            rows="6"
+            [attr.aria-invalid]="invalid('message')"
+          ></textarea>
           @if (invalid('message')) {
             <span class="field-error">Write at least a sentence, so we know what to reply to.</span>
           }
         </label>
-        <button class="btn btn-copper" type="submit" [disabled]="status() === 'sending'">
+        <button class="btn btn-accent" type="submit" [disabled]="status() === 'sending'">
           {{ status() === 'sending' ? 'Sending…' : 'Send message' }}
         </button>
         @if (status() === 'mailto') {

@@ -2,20 +2,22 @@
   <div class="wrap">
     <p class="eyebrow">Request</p>
     <h1>Ask for the product, or for the changes.</h1>
-    <p class="lede">We reply with a quote and a timeline. No payment is taken here, and no account is created.</p>
+    <p class="lede">
+      We reply with a quote and a timeline. No payment is taken here, and no account is created.
+    </p>
   </div>
 </header>
 
-<section class="section">
+<section class="section section-tight">
   <div class="wrap narrow">
     @if (status() === 'sent') {
       <div class="notice" role="status">
         <h2>Request received.</h2>
         <p>We will reply by email with a quote, or with questions if the brief needs them.</p>
-        <a class="btn btn-ink" routerLink="/shelf">Back to the shelf</a>
+        <a class="btn" routerLink="/shelf">Back to the shelf</a>
       </div>
     } @else {
-      <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <form class="form form-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="hp" aria-hidden="true">
           <label>
             Website
@@ -46,14 +48,23 @@
         <div class="form-row two">
           <label>
             Name
-            <input formControlName="name" autocomplete="name" [attr.aria-invalid]="invalid('name')" />
+            <input
+              formControlName="name"
+              autocomplete="name"
+              [attr.aria-invalid]="invalid('name')"
+            />
             @if (invalid('name')) {
               <span class="field-error">Enter your name.</span>
             }
           </label>
           <label>
             Email
-            <input formControlName="email" type="email" autocomplete="email" [attr.aria-invalid]="invalid('email')" />
+            <input
+              formControlName="email"
+              type="email"
+              autocomplete="email"
+              [attr.aria-invalid]="invalid('email')"
+            />
             @if (invalid('email')) {
               <span class="field-error">Enter a valid email address.</span>
             }
@@ -62,13 +73,17 @@
         <div class="form-row two">
           <label>
             Company
-            <input formControlName="company" autocomplete="organization" [attr.aria-invalid]="invalid('company')" />
+            <input
+              formControlName="company"
+              autocomplete="organization"
+              [attr.aria-invalid]="invalid('company')"
+            />
             @if (invalid('company')) {
               <span class="field-error">Enter the company name.</span>
             }
           </label>
           <label>
-            Phone <span class="optional">optional</span>
+            <span>Phone <span class="optional">(optional)</span></span>
             <input formControlName="phone" type="tel" autocomplete="tel" />
           </label>
         </div>
@@ -82,12 +97,18 @@
         </label>
         <label>
           What should change, or what should stay?
-          <textarea formControlName="message" rows="7" [attr.aria-invalid]="invalid('message')"></textarea>
+          <textarea
+            formControlName="message"
+            rows="7"
+            [attr.aria-invalid]="invalid('message')"
+          ></textarea>
           @if (invalid('message')) {
-            <span class="field-error">Describe the business and the change in at least a sentence.</span>
+            <span class="field-error"
+              >Describe the business and the change in at least a sentence.</span
+            >
           }
         </label>
-        <button class="btn btn-copper" type="submit" [disabled]="status() === 'sending'">
+        <button class="btn btn-accent" type="submit" [disabled]="status() === 'sending'">
           {{ status() === 'sending' ? 'Sending…' : 'Send request' }}
         </button>
         @if (status() === 'mailto') {

@@ -1,78 +1,101 @@
 <header class="page-hero">
   <div class="wrap">
-    <p class="index">The shelf</p>
+    <p class="eyebrow">The shelf</p>
     <h1>Working software, ready to shape.</h1>
-    <p class="lede">ParkSpace can be opened now. The others are shown when you ask.</p>
+    <p class="lede">
+      Every product is a working starting point. Try ParkSpace now, or ask for a demo of the others.
+    </p>
   </div>
 </header>
 
-<section class="section">
+<section class="section section-tight">
   <div class="wrap">
     <form class="filters" (submit)="$event.preventDefault()">
-      <label>
-        Search
+      <label class="search">
+        <span class="sr-only">Search</span>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
         <input
           type="search"
           [value]="query()"
           (input)="query.set($any($event.target).value)"
-          placeholder="Parking, CRM, stock"
+          placeholder="Search products"
           autocomplete="off"
         />
       </label>
       <fieldset>
-        <legend>Industry</legend>
+        <legend class="sr-only">Industry</legend>
         <div class="pills">
           @for (item of industries; track item) {
-            <button type="button" [attr.aria-pressed]="industry() === item" (click)="industry.set(item)">{{ item }}</button>
+            <button
+              type="button"
+              [attr.aria-pressed]="industry() === item"
+              (click)="industry.set(item)"
+            >
+              {{ item }}
+            </button>
           }
         </div>
       </fieldset>
       <fieldset>
-        <legend>Category</legend>
-        <div class="pills">
-          @for (item of categories; track item) {
-            <button type="button" [attr.aria-pressed]="category() === item" (click)="category.set(item)">{{ item }}</button>
-          }
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Price</legend>
+        <legend class="sr-only">Price</legend>
         <div class="pills">
           @for (item of prices; track item.id) {
-            <button type="button" [attr.aria-pressed]="price() === item.id" (click)="price.set(item.id)">{{ item.label }}</button>
+            <button
+              type="button"
+              [attr.aria-pressed]="price() === item.id"
+              (click)="price.set(item.id)"
+            >
+              {{ item.label }}
+            </button>
           }
         </div>
       </fieldset>
     </form>
 
-    <p class="result-count">{{ results().length }} {{ results().length === 1 ? 'product' : 'products' }}</p>
+    <p class="result-count">
+      {{ results().length }} {{ results().length === 1 ? 'product' : 'products' }}
+    </p>
 
     @if (results().length === 0) {
       <div class="empty">
-        <h2>Nothing on the shelf matches that.</h2>
-        <p>Clear the filters and look again.</p>
-        <button class="btn btn-ink" type="button" (click)="clear()">Clear filters</button>
+        <h2>Nothing matches that.</h2>
+        <p class="muted">Clear the filters and look again.</p>
+        <button class="btn" type="button" (click)="clear()">Clear filters</button>
       </div>
     } @else {
       <div class="catalog">
         @for (product of results(); track product.slug) {
-          <article>
-            <app-product-mock [kind]="product.mock" />
-            <div>
-              <p class="index">No. {{ product.catalog }} · {{ product.category }} · {{ product.industry }}</p>
-              <h2><a [routerLink]="['/shelf', product.slug]">{{ product.name }}</a></h2>
-              <p>{{ product.promise }}</p>
-              @if (product.demo === 'live') {
-                <span class="live">Live demo</span>
-              }
-            </div>
-            <div class="catalog-end">
-              <p class="rate">{{ product.priceLabel }}</p>
-              <a class="text-link" [routerLink]="['/shelf', product.slug]">Open</a>
-            </div>
-          </article>
+          <app-product-card [product]="product" />
         }
       </div>
     }
+  </div>
+</section>
+
+<section class="closer">
+  <div class="wrap">
+    <div class="closer-panel">
+      <h2>Need something that is not here?</h2>
+      <p>
+        Tell us what you are trying to run. If it is close to a product on the shelf, we will say
+        so.
+      </p>
+      <div class="actions">
+        <a class="btn btn-accent btn-lg" routerLink="/contact">Talk to us</a>
+      </div>
+    </div>
   </div>
 </section>

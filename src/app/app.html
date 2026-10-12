@@ -1,11 +1,28 @@
 <a class="skip" href="#content">Skip to content</a>
 
-<header class="site-header" [class.menu-on]="menuOpen()">
+<header class="site-header">
   <div class="wrap header-bar">
     <a class="brand" routerLink="/" (click)="closeMenu()">
       <span class="brand-mark" aria-hidden="true"></span>
       Zaviks<span>Tech</span>
     </a>
+
+    <nav id="site-nav" class="site-nav" [class.open]="menuOpen()" aria-label="Primary">
+      @for (item of nav; track item.path) {
+        <a [routerLink]="item.path" routerLinkActive="is-active" (click)="closeMenu()">{{
+          item.label
+        }}</a>
+      }
+      <div class="mobile-cta">
+        <a class="btn btn-ghost" routerLink="/contact" (click)="closeMenu()">Contact</a>
+        <a class="btn btn-accent" routerLink="/request" (click)="closeMenu()">Request a product</a>
+      </div>
+    </nav>
+
+    <div class="header-actions">
+      <a class="nav-contact" routerLink="/contact" routerLinkActive="is-active">Contact</a>
+      <a class="btn btn-sm" routerLink="/request">Request a product</a>
+    </div>
 
     <button
       class="nav-toggle"
@@ -17,13 +34,6 @@
       <span class="sr-only">{{ menuOpen() ? 'Close menu' : 'Open menu' }}</span>
       <span class="burger" [class.open]="menuOpen()"></span>
     </button>
-
-    <nav id="site-nav" class="site-nav" [class.open]="menuOpen()" aria-label="Primary">
-      @for (item of nav; track item.path) {
-        <a [routerLink]="item.path" routerLinkActive="is-active" (click)="closeMenu()">{{ item.label }}</a>
-      }
-      <a class="nav-contact" routerLink="/contact" (click)="closeMenu()">Contact</a>
-    </nav>
   </div>
 </header>
 
@@ -38,21 +48,28 @@
         <span class="brand-mark" aria-hidden="true"></span>
         Zaviks<span>Tech</span>
       </a>
-      <p>Ready-made software, licensed for your business, then shaped, deployed, and looked after.</p>
+      <p>
+        Ready-made software, licensed for your business, then customised, deployed, and maintained.
+      </p>
     </div>
     <div>
-      <h2>Shelf</h2>
+      <h2>Products</h2>
       <ul>
         @for (product of products; track product.slug) {
-          <li><a [routerLink]="['/shelf', product.slug]">{{ product.name }}</a></li>
+          <li>
+            <a [routerLink]="['/shelf', product.slug]">{{ product.name }}</a>
+          </li>
         }
+        <li><a routerLink="/shelf">All products</a></li>
       </ul>
     </div>
     <div>
       <h2>Company</h2>
       <ul>
         @for (item of nav; track item.path) {
-          <li><a [routerLink]="item.path">{{ item.label }}</a></li>
+          <li>
+            <a [routerLink]="item.path">{{ item.label }}</a>
+          </li>
         }
         <li><a routerLink="/contact">Contact</a></li>
         <li><a routerLink="/request">Request a product</a></li>
@@ -62,13 +79,15 @@
       <h2>Legal</h2>
       <ul>
         @for (page of legalPages; track page.slug) {
-          <li><a [routerLink]="['/legal', page.slug]">{{ page.title }}</a></li>
+          <li>
+            <a [routerLink]="['/legal', page.slug]">{{ page.title }}</a>
+          </li>
         }
       </ul>
     </div>
   </div>
   <div class="wrap footer-base">
-    <p>© {{ year }} {{ site.name }}. {{ site.location }}.</p>
+    <p>© {{ year }} {{ site.name }} · {{ site.location }}</p>
     <a [href]="'mailto:' + site.email">{{ site.email }}</a>
   </div>
 </footer>

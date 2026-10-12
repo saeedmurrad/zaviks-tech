@@ -1,5 +1,5 @@
 @if (product(); as item) {
-  <header class="page-hero">
+  <header class="page-hero left">
     <div class="wrap">
       <nav class="crumb" aria-label="Breadcrumb">
         <a routerLink="/">Home</a>
@@ -8,64 +8,89 @@
         <span aria-hidden="true">/</span>
         <span>{{ item.name }}</span>
       </nav>
-      <p class="index">No. {{ item.catalog }} · {{ item.category }} · {{ item.industry }}</p>
+      <div class="card-kicker" style="margin-bottom: 1rem">
+        <span class="tag">{{ item.category }}</span>
+        <span class="tag">{{ item.industry }}</span>
+        @if (item.demo === 'live') {
+          <span class="tag tag-live">Live demo</span>
+        }
+      </div>
       <h1>{{ item.name }}</h1>
       <p class="lede">{{ item.summary }}</p>
     </div>
   </header>
 
-  <section class="section">
+  <section class="section section-tight">
     <div class="wrap product-layout">
       <div>
         <app-product-mock [kind]="item.mock" />
-        <h2>What it already does</h2>
-        <ul class="feature-list">
-          @for (feature of item.features; track feature) {
-            <li>{{ feature }}</li>
-          }
-        </ul>
-        <h2>What we usually change</h2>
-        <ul class="feature-list">
-          @for (change of item.customisation; track change) {
-            <li>{{ change }}</li>
-          }
-        </ul>
-        <h2>Stack</h2>
-        <ul class="chips">
-          @for (tech of item.stack; track tech) {
-            <li>{{ tech }}</li>
-          }
-        </ul>
-        <p class="delivery">{{ item.delivery }}</p>
+        <div class="detail-grid">
+          <div class="card">
+            <h3>What it already does</h3>
+            <ul class="feature-list">
+              @for (feature of item.features; track feature) {
+                <li>{{ feature }}</li>
+              }
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What we usually change</h3>
+            <ul class="feature-list">
+              @for (change of item.customisation; track change) {
+                <li>{{ change }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="label">Stack</span>
+          <ul class="chips">
+            @for (tech of item.stack; track tech) {
+              <li>{{ tech }}</li>
+            }
+          </ul>
+        </div>
+        <p class="delivery" style="margin-top: 1rem">{{ item.delivery }}</p>
       </div>
       <aside class="buy-box">
         <p class="index">Licence</p>
         <p class="rate">{{ item.priceLabel }}</p>
-        <p>The final figure is confirmed in the quote. This page does not take payment.</p>
+        <p>The final figure is confirmed in the quote. No payment is taken on this page.</p>
         @if (item.demo === 'live' && item.demoUrl) {
-          <a class="btn btn-red" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
+          <a class="btn btn-accent" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer"
+            >Open live demo</a
+          >
           <p class="note">{{ item.demoNote }}</p>
         } @else {
-          <p class="note">A demo is arranged when you request the product. There is no public link yet.</p>
+          <p class="note">A demo is arranged when you request the product.</p>
         }
-        <a class="btn btn-ink" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'purchase' }">Request this product</a>
-        <a class="text-link" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'customisation' }">Request customisation</a>
+        <a
+          class="btn"
+          routerLink="/request"
+          [queryParams]="{ product: item.slug, intent: 'purchase' }"
+          >Request this product</a
+        >
+        <a
+          class="text-link"
+          routerLink="/request"
+          [queryParams]="{ product: item.slug, intent: 'customisation' }"
+          >Request a customisation quote</a
+        >
       </aside>
     </div>
   </section>
 
   @if (others().length) {
-    <section class="section section-tight">
+    <section class="section">
       <div class="wrap">
-        <p class="index">Also on the shelf</p>
-        <ul class="also">
+        <div class="section-head">
+          <h2>Also on the shelf</h2>
+        </div>
+        <div class="also">
           @for (other of others(); track other.slug) {
-            <li>
-              <a [routerLink]="['/shelf', other.slug]">{{ other.name }}</a>
-              <span>{{ other.promise }}</span>
-            </li>
+            <app-product-card [product]="other" />
           }
-        </ul>
+        </div>
       </div>
     </section>
   }
@@ -73,8 +98,8 @@
   <section class="section">
     <div class="wrap empty">
       <h1>That product is not on the shelf.</h1>
-      <p>The three we list today are ParkSpace, Clientline, and Stockroom.</p>
-      <a class="btn btn-ink" routerLink="/shelf">Back to the shelf</a>
+      <p class="muted">The three we list today are ParkSpace, Clientline, and Stockroom.</p>
+      <a class="btn" routerLink="/shelf">Back to the shelf</a>
     </div>
   </section>
 }
