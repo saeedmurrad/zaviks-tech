@@ -44,7 +44,7 @@ Contact and request forms write to the `enquiries` collection. Rules allow a che
 Deploy rule changes with:
 
 ```bash
-npx firebase-tools deploy --only firestore:rules --project zaviks-tech-site
+npx firebase-tools deploy --only firestore:rules --project zaviks-tech
 ```
 
 The public contact address is `hello@zaviks.tech`, in `src/app/data/site.ts`.
