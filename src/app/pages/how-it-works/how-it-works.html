@@ -1,0 +1,37 @@
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h1>You choose. We carry it the rest of the way.</h1>
+    <p class="lede">
+      The first three steps happen with us in a conversation. The last three are the work we deliver, with you able to see where it stands.
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap journey">
+    @for (stage of stages; track stage.n) {
+      <article>
+        <span>{{ stage.n }}</span>
+        <div>
+          <h2>{{ stage.title }}</h2>
+          <p><strong>Zaviks Tech.</strong> {{ stage.zaviks }}</p>
+          <p><strong>You.</strong> {{ stage.customer }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap prose">
+    <h2>What you do on this site</h2>
+    <p>
+      Browse the shelf, open the ParkSpace demo if you want to see a product running, and send a request. Tell us the product, what has to change, and how soon you need it.
+    </p>
+    <p>
+      We reply with a quote and a timeline. There is no account to create here, and no card form. When the quote is accepted, we do the customisation, the deployment, and the maintenance that follows.
+    </p>
+    <p class="section-link"><a routerLink="/request">Send a request</a></p>
+  </div>
+</section>

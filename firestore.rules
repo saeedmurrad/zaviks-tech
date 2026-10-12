@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /enquiries/{id} {
+      allow read, update, delete: if false;
+      allow create: if validEnquiry(request.resource.data);
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+function validEnquiry(data) {
+  return data.keys().hasOnly([
+      'type',
+      'name',
+      'email',
+      'company',
+      'phone',
+      'productSlug',
+      'message',
+      'priority',
+      'createdAt'
+    ])
+    && data.type in ['contact', 'purchase', 'customisation']
+    && data.name is string
+    && data.name.size() >= 2
+    && data.name.size() <= 120
+    && data.email is string
+    && data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+    && data.email.size() <= 160
+    && data.company is string
+    && data.company.size() <= 160
+    && data.phone is string
+    && data.phone.size() <= 40
+    && data.productSlug is string
+    && data.productSlug.size() <= 40
+    && data.message is string
+    && data.message.size() >= 10
+    && data.message.size() <= 4000
+    && data.priority in ['standard', 'soon', 'urgent']
+    && data.createdAt == request.time;
+}

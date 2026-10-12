@@ -1,0 +1,130 @@
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">A shelf of working software</p>
+      <h1>Software that already works. Then we make it yours.</h1>
+      <p class="lede">
+        Zaviks Tech builds products before a customer asks. You choose the closest one, license it for your
+        business, and we customise it, deploy it, and stay on to maintain it.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-copper" routerLink="/shelf">Browse the shelf</a>
+        <a class="btn btn-ghost" routerLink="/contact">Start a conversation</a>
+      </div>
+      <ol class="stage-row">
+        @for (stage of stages; track stage.n) {
+          <li>{{ stage.title }}</li>
+        }
+      </ol>
+    </div>
+    <aside class="hero-card">
+      <p class="eyebrow">Open today</p>
+      <app-product-mock [kind]="parkspace.mock" />
+      <div class="card-kicker">
+        <span>No. {{ parkspace.catalog }}</span>
+        <span class="badge">Live demo</span>
+      </div>
+      <h2>{{ parkspace.name }}</h2>
+      <p>{{ parkspace.promise }} The platform keeps 20% of each booking.</p>
+      <div class="card-actions">
+        <a class="btn btn-copper" [href]="parkspace.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
+        <a class="btn btn-line" [routerLink]="['/shelf', parkspace.slug]">Read the product</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section facts">
+  <div class="wrap fact-grid">
+    <p><strong>3</strong><span>products on the shelf, ready to compare</span></p>
+    <p><strong>1</strong><span>you can try in the browser before you write to us</span></p>
+    <p><strong>Licence</strong><span>your own copy, not a rebuild from an empty repository</span></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The shelf</p>
+      <h2>Start from something that runs.</h2>
+      <p class="lede">Each card is a product with a shape, a stack, and a way to ask for it. ParkSpace is the one with a public demo.</p>
+    </div>
+    <div class="card-grid">
+      @for (product of products; track product.slug) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">How the work moves</p>
+      <h2>Six stages, from a prototype to a system you keep.</h2>
+    </div>
+    <ol class="stage-grid">
+      @for (stage of stages; track stage.n) {
+        <li>
+          <span>{{ stage.n }}</span>
+          <h3>{{ stage.title }}</h3>
+          <p>{{ stage.customer }}</p>
+        </li>
+      }
+    </ol>
+    <p class="section-link"><a routerLink="/how-it-works">See what you do, and what we do</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The engagement</p>
+      <h2>Three parts. Each one is priced on its own.</h2>
+    </div>
+    <div class="trio">
+      <article>
+        <h3>Licence the base</h3>
+        <p>You take the product closest to the business. The starting figure is on the shelf. The quote confirms it.</p>
+      </article>
+      <article>
+        <h3>Shape it</h3>
+        <p>Brand, rules, and the features that have to change. We price that from the brief, not from a guessed package.</p>
+      </article>
+      <article>
+        <h3>Keep it running</h3>
+        <p>A maintenance plan for security updates, fixes, and a person who already knows the system.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="plans">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">After launch</p>
+      <h2>Maintenance, when the product is in daily use.</h2>
+    </div>
+    <div class="plan-grid">
+      @for (plan of plans; track plan.name) {
+        <article class="plan" [class.featured]="plan.featured">
+          <h3>{{ plan.name }}</h3>
+          <p class="plan-price">{{ plan.price }} <small>/ {{ plan.period }}</small></p>
+          <p>{{ plan.summary }}</p>
+        </article>
+      }
+    </div>
+    <p class="section-link"><a routerLink="/pricing">Prices, and what a quote includes</a></p>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <h2>Tell us which product is closest.</h2>
+    <p>We reply with a quote and a timeline. Nothing is charged on this website.</p>
+    <div class="hero-actions">
+      <a class="btn btn-copper" routerLink="/request">Request a product</a>
+      <a class="btn btn-ghost" routerLink="/shelf">Look at the shelf again</a>
+    </div>
+  </div>
+</section>

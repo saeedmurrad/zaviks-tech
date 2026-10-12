@@ -1,0 +1,64 @@
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">The shelf</p>
+    <h1>Working software, ready to shape.</h1>
+    <p class="lede">Search by what the business does. ParkSpace can be opened now. The others are shown on a call.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <form class="filters" (submit)="$event.preventDefault()">
+      <label>
+        Search
+        <input
+          type="search"
+          [value]="query()"
+          (input)="query.set($any($event.target).value)"
+          placeholder="Parking, CRM, stock"
+          autocomplete="off"
+        />
+      </label>
+      <fieldset>
+        <legend>Industry</legend>
+        <div class="pills">
+          @for (item of industries; track item) {
+            <button type="button" [attr.aria-pressed]="industry() === item" (click)="industry.set(item)">{{ item }}</button>
+          }
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Category</legend>
+        <div class="pills">
+          @for (item of categories; track item) {
+            <button type="button" [attr.aria-pressed]="category() === item" (click)="category.set(item)">{{ item }}</button>
+          }
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Price</legend>
+        <div class="pills">
+          @for (item of prices; track item.id) {
+            <button type="button" [attr.aria-pressed]="price() === item.id" (click)="price.set(item.id)">{{ item.label }}</button>
+          }
+        </div>
+      </fieldset>
+    </form>
+
+    <p class="result-count">{{ results().length }} {{ results().length === 1 ? 'product' : 'products' }}</p>
+
+    @if (results().length === 0) {
+      <div class="empty">
+        <h2>Nothing on the shelf matches that.</h2>
+        <p>Clear the filters and look again.</p>
+        <button class="btn btn-ink" type="button" (click)="clear()">Clear filters</button>
+      </div>
+    } @else {
+      <div class="card-grid">
+        @for (product of results(); track product.slug) {
+          <app-product-card [product]="product" />
+        }
+      </div>
+    }
+  </div>
+</section>

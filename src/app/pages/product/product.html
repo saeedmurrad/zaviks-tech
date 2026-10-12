@@ -1,0 +1,77 @@
+@if (product(); as item) {
+  <header class="page-hero">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a routerLink="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a routerLink="/shelf">Shelf</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ item.name }}</span>
+      </nav>
+      <p class="eyebrow">No. {{ item.catalog }} · {{ item.category }} · {{ item.industry }}</p>
+      <h1>{{ item.name }}</h1>
+      <p class="lede">{{ item.summary }}</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap product-layout">
+      <div>
+        <app-product-mock [kind]="item.mock" />
+        <h2>What it already does</h2>
+        <ul class="feature-list">
+          @for (feature of item.features; track feature) {
+            <li>{{ feature }}</li>
+          }
+        </ul>
+        <h2>What we usually change</h2>
+        <ul class="feature-list">
+          @for (change of item.customisation; track change) {
+            <li>{{ change }}</li>
+          }
+        </ul>
+        <h2>Stack</h2>
+        <ul class="chips">
+          @for (tech of item.stack; track tech) {
+            <li>{{ tech }}</li>
+          }
+        </ul>
+        <p class="delivery">{{ item.delivery }}</p>
+      </div>
+      <aside class="buy-box">
+        <p class="eyebrow">Licence</p>
+        <p class="plan-price">{{ item.priceLabel }}</p>
+        <p>The final figure is confirmed in the quote. This page does not take payment.</p>
+        @if (item.demo === 'live' && item.demoUrl) {
+          <a class="btn btn-copper" [href]="item.demoUrl" target="_blank" rel="noopener noreferrer">Open live demo</a>
+          <p class="note">{{ item.demoNote }}</p>
+        } @else {
+          <p class="note">A demo is arranged when you request the product. There is no public link yet.</p>
+        }
+        <a class="btn btn-ink" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'purchase' }">Request this product</a>
+        <a class="btn btn-line" routerLink="/request" [queryParams]="{ product: item.slug, intent: 'customisation' }">Request customisation</a>
+      </aside>
+    </div>
+  </section>
+
+  @if (others().length) {
+    <section class="section section-alt">
+      <div class="wrap">
+        <h2>Also on the shelf</h2>
+        <ul class="also">
+          @for (other of others(); track other.slug) {
+            <li><a [routerLink]="['/shelf', other.slug]">{{ other.name }}</a> — {{ other.promise }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+  }
+} @else {
+  <section class="section">
+    <div class="wrap empty">
+      <h1>That product is not on the shelf.</h1>
+      <p>The three we list today are ParkSpace, Clientline, and Stockroom.</p>
+      <a class="btn btn-ink" routerLink="/shelf">Back to the shelf</a>
+    </div>
+  </section>
+}

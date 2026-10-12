@@ -1,0 +1,108 @@
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Request</p>
+    <h1>Ask for the product, or for the changes.</h1>
+    <p class="lede">We reply with a quote and a timeline. No payment is taken here, and no account is created.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap narrow">
+    @if (status() === 'sent') {
+      <div class="notice" role="status">
+        <h2>Request received.</h2>
+        <p>We will reply by email with a quote, or with questions if the brief needs them.</p>
+        <a class="btn btn-ink" routerLink="/shelf">Back to the shelf</a>
+      </div>
+    } @else {
+      <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label>
+            Website
+            <input formControlName="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            Product
+            <select formControlName="product" [attr.aria-invalid]="invalid('product')">
+              <option value="">Choose a product</option>
+              @for (product of products; track product.slug) {
+                <option [value]="product.slug">{{ product.name }}</option>
+              }
+            </select>
+            @if (invalid('product')) {
+              <span class="field-error">Choose a product.</span>
+            }
+          </label>
+          <label>
+            What do you need?
+            <select formControlName="intent">
+              <option value="purchase">License the product</option>
+              <option value="customisation">Quote a customisation</option>
+            </select>
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            Name
+            <input formControlName="name" autocomplete="name" [attr.aria-invalid]="invalid('name')" />
+            @if (invalid('name')) {
+              <span class="field-error">Enter your name.</span>
+            }
+          </label>
+          <label>
+            Email
+            <input formControlName="email" type="email" autocomplete="email" [attr.aria-invalid]="invalid('email')" />
+            @if (invalid('email')) {
+              <span class="field-error">Enter a valid email address.</span>
+            }
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            Company
+            <input formControlName="company" autocomplete="organization" [attr.aria-invalid]="invalid('company')" />
+            @if (invalid('company')) {
+              <span class="field-error">Enter the company name.</span>
+            }
+          </label>
+          <label>
+            Phone <span class="optional">optional</span>
+            <input formControlName="phone" type="tel" autocomplete="tel" />
+          </label>
+        </div>
+        <label>
+          Priority
+          <select formControlName="priority">
+            <option value="standard">Standard</option>
+            <option value="soon">Needed soon</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </label>
+        <label>
+          What should change, or what should stay?
+          <textarea formControlName="message" rows="7" [attr.aria-invalid]="invalid('message')"></textarea>
+          @if (invalid('message')) {
+            <span class="field-error">Describe the business and the change in at least a sentence.</span>
+          }
+        </label>
+        <button class="btn btn-copper" type="submit" [disabled]="status() === 'sending'">
+          {{ status() === 'sending' ? 'Sending…' : 'Send request' }}
+        </button>
+        @if (status() === 'mailto') {
+          <p class="note" role="status">
+            The enquiry store is not connected on this preview.
+            <a [href]="mailtoHref()">Email this request instead</a>.
+          </p>
+        }
+        @if (status() === 'error') {
+          <p class="field-error" role="alert">
+            We could not store that just now.
+            <a [href]="mailtoHref()">Send it by email</a>.
+          </p>
+        }
+      </form>
+    }
+  </div>
+</section>

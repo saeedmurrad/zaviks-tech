@@ -1,0 +1,40 @@
+@switch (kind()) {
+  @case ('parkspace') {
+    <div class="mock mock-park" aria-hidden="true">
+      <span class="road road-h"></span>
+      <span class="road road-v"></span>
+      <span class="block b1"></span>
+      <span class="block b2"></span>
+      <span class="block b3"></span>
+      <span class="pin"><i></i></span>
+      <span class="price-pill">£4.50 / hr</span>
+    </div>
+  }
+  @case ('clientline') {
+    <div class="mock mock-crm" aria-hidden="true">
+      <div>
+        <em>New</em>
+        <i></i>
+        <i></i>
+        <i class="short"></i>
+      </div>
+      <div>
+        <em>Talking</em>
+        <i></i>
+        <i class="short"></i>
+      </div>
+      <div>
+        <em>Won</em>
+        <i class="hot"></i>
+      </div>
+    </div>
+  }
+  @case ('stockroom') {
+    <div class="mock mock-stock" aria-hidden="true">
+      <p><span>Oak chair</span><b class="w72"></b><small>18</small></p>
+      <p><span>Linen shade</span><b class="w40"></b><small>6</small></p>
+      <p><span>Brass hook</span><b class="w88"></b><small>42</small></p>
+      <p><span>Wool throw</span><b class="w24"></b><small>3</small></p>
+    </div>
+  }
+}

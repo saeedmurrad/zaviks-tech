@@ -1,0 +1,31 @@
+@if (page(); as item) {
+  <header class="page-hero">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a routerLink="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ item.title }}</span>
+      </nav>
+      <p class="eyebrow">Legal</p>
+      <h1>{{ item.title }}</h1>
+      <p class="lede">{{ item.description }}</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap prose">
+      @for (section of item.sections; track section.heading) {
+        <h2>{{ section.heading }}</h2>
+        @for (paragraph of section.paragraphs; track paragraph) {
+          <p>{{ paragraph }}</p>
+        }
+      }
+    </div>
+  </section>
+} @else {
+  <section class="section">
+    <div class="wrap empty">
+      <h1>That page is not here.</h1>
+      <p><a routerLink="/legal/terms">Terms</a>, <a routerLink="/legal/privacy">privacy</a>, <a routerLink="/legal/licence">licence</a>, and <a routerLink="/legal/refund">refunds</a>.</p>
+    </div>
+  </section>
+}

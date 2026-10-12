@@ -1,0 +1,82 @@
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Contact</p>
+    <h1>Tell us what you are trying to run.</h1>
+    <p class="lede">A short note is enough. If you already know the product, the request form is the faster path.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap contact-layout">
+    <div class="prose">
+      <h2>Studio</h2>
+      <p>{{ site.location }}</p>
+      <p><a [href]="'mailto:' + site.email">{{ site.email }}</a></p>
+      <p>We read messages on business days and reply by email. This form does not create an account.</p>
+    </div>
+
+    @if (status() === 'sent') {
+      <div class="notice" role="status">
+        <h2>Received.</h2>
+        <p>We will reply by email. If you do not hear back, write to {{ site.email }} directly.</p>
+      </div>
+    } @else {
+      <form class="form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label>
+            Website
+            <input formControlName="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            Name
+            <input formControlName="name" autocomplete="name" [attr.aria-invalid]="invalid('name')" />
+            @if (invalid('name')) {
+              <span class="field-error">Enter your name.</span>
+            }
+          </label>
+          <label>
+            Email
+            <input formControlName="email" type="email" autocomplete="email" [attr.aria-invalid]="invalid('email')" />
+            @if (invalid('email')) {
+              <span class="field-error">Enter a valid email address.</span>
+            }
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            Company
+            <input formControlName="company" autocomplete="organization" />
+          </label>
+          <label>
+            Phone <span class="optional">optional</span>
+            <input formControlName="phone" type="tel" autocomplete="tel" />
+          </label>
+        </div>
+        <label>
+          Message
+          <textarea formControlName="message" rows="6" [attr.aria-invalid]="invalid('message')"></textarea>
+          @if (invalid('message')) {
+            <span class="field-error">Write at least a sentence, so we know what to reply to.</span>
+          }
+        </label>
+        <button class="btn btn-copper" type="submit" [disabled]="status() === 'sending'">
+          {{ status() === 'sending' ? 'Sending…' : 'Send message' }}
+        </button>
+        @if (status() === 'mailto') {
+          <p class="note" role="status">
+            The enquiry store is not connected on this preview.
+            <a [href]="mailtoHref()">Email this message instead</a>.
+          </p>
+        }
+        @if (status() === 'error') {
+          <p class="field-error" role="alert">
+            We could not store that just now.
+            <a [href]="mailtoHref()">Send it by email</a>.
+          </p>
+        }
+      </form>
+    }
+  </div>
+</section>

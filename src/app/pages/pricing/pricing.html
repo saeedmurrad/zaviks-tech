@@ -1,0 +1,54 @@
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Pricing</p>
+    <h1>A starting price, then a quote that names the work.</h1>
+    <p class="lede">
+      Three fees, kept separate so you can see what you are paying for. Figures on this page are starting points. The quote is the price.
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap trio">
+    <article>
+      <h2>Base licence</h2>
+      <p>ParkSpace is quoted for the business. Clientline starts from £3,200. Stockroom starts from £2,400.</p>
+      <p>That fee licenses your copy. It is not a sale of the product to the exclusion of anyone else.</p>
+    </article>
+    <article>
+      <h2>Customisation</h2>
+      <p>Priced per request, after we have read what has to change. Not a bundle you pick before the conversation, and not an open hourly tab.</p>
+    </article>
+    <article>
+      <h2>Maintenance</h2>
+      <p>A monthly plan once the system is live. You can end it at the next renewal. It is not bundled silently into the first invoice.</p>
+    </article>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Maintenance plans</h2>
+      <p class="lede">These are the shapes we quote from. A plan can be adjusted when the product needs something the list does not cover.</p>
+    </div>
+    <div class="plan-grid">
+      @for (plan of plans; track plan.name) {
+        <article class="plan" [class.featured]="plan.featured">
+          @if (plan.featured) {
+            <p class="badge">Usual choice</p>
+          }
+          <h3>{{ plan.name }}</h3>
+          <p class="plan-price">{{ plan.price }} <small>/ {{ plan.period }}</small></p>
+          <p>{{ plan.summary }}</p>
+          <ul class="feature-list">
+            @for (point of plan.points; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+    <p class="section-link"><a routerLink="/request">Ask for a quote</a></p>
+  </div>
+</section>
