@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { DemoWarmup } from '../../core/demo-warmup';
 import { absoluteUrl, Seo } from '../../core/seo';
 import { products } from '../../data/products';
 import { plans, site, stages } from '../../data/site';
@@ -18,6 +19,7 @@ export class Home {
   readonly parkspace = products[0];
 
   constructor() {
+    inject(DemoWarmup).ping(this.parkspace.demoHealthUrl);
     inject(Seo).set({
       title: 'Zaviks Tech — Software that already works',
       description: site.description,

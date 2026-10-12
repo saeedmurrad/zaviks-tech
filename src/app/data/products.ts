@@ -16,6 +16,8 @@ export interface Product {
   customisation: string[];
   demo: 'live' | 'request';
   demoUrl?: string;
+  /** Health endpoint of the demo API, pinged early so a sleeping free-tier server wakes before the visitor clicks. */
+  demoHealthUrl?: string;
   demoNote?: string;
   mock: MockKind;
 }
@@ -32,7 +34,8 @@ export const products: Product[] = [
       'A two-sided parking marketplace. The platform keeps a commission on each booking, and the same product can be branded for a city, a campus, or a private operator.',
     priceLabel: 'Quoted',
     priceValue: null,
-    delivery: 'A working prototype is ready today. A branded deployment typically takes a few weeks once the brief is agreed.',
+    delivery:
+      'A working prototype is ready today. A branded deployment typically takes a few weeks once the brief is agreed.',
     stack: ['Flutter', 'NestJS', 'Postgres', 'PostGIS', 'Supabase', 'Stripe'],
     features: [
       'Map search with price, walking time, and filters for covered, CCTV, EV, and gated spaces',
@@ -51,8 +54,9 @@ export const products: Product[] = [
     ],
     demo: 'live',
     demoUrl: 'https://saeedmurrad.github.io/driveway-parking-app/',
+    demoHealthUrl: 'https://parkspace-api.onrender.com/health',
     demoNote:
-      'The demo API sleeps when idle, so the first open can take about a minute. On the login screen, choose Driver, Host, or Admin. Payments in the demo are simulated, and messages stay inside the app.',
+      'On the login screen, choose Driver, Host, or Admin. If the demo server was idle, the first sign-in can take up to a minute. Payments are simulated, and messages stay inside the app.',
     mock: 'parkspace',
   },
   {

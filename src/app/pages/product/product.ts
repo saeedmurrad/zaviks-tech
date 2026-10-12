@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DemoWarmup } from '../../core/demo-warmup';
 import { absoluteUrl, Seo } from '../../core/seo';
 import { productBySlug, products, type Product } from '../../data/products';
 import { ProductCard } from '../../shared/product-card';
@@ -13,6 +14,7 @@ import { ProductMock } from '../../shared/product-mock';
 })
 export class ProductPage {
   private readonly seo = inject(Seo);
+  private readonly warmup = inject(DemoWarmup);
   readonly product = signal<Product | undefined>(undefined);
   readonly others = signal<Product[]>([]);
 
@@ -22,6 +24,7 @@ export class ProductPage {
       .subscribe((params) => {
         const product = productBySlug(params.get('slug'));
         this.product.set(product);
+        this.warmup.ping(product?.demoHealthUrl);
         this.others.set(products.filter((item) => item.slug !== product?.slug));
         if (!product) {
           this.seo.set({
