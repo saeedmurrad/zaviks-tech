@@ -141,6 +141,15 @@ export class AdminRequests {
     try {
       await action();
       await this.store.load(true);
+      const fresh = this.selected();
+      if (fresh) {
+        this.statusForm.patchValue({ status: fresh.status });
+        this.quoteForm.patchValue({
+          amount: fresh.quote?.amount ?? '',
+          timeline: fresh.quote?.timeline ?? '',
+          note: fresh.quote?.note ?? '',
+        });
+      }
     } catch (err) {
       this.error.set(friendlyError(err));
     } finally {

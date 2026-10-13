@@ -3306,3 +3306,20 @@ html.js .reveal.in {
     display: none;
   }
 }
+
+/* Keep the header on one line on smaller desktops: tighter nav, and Contact moves to the footer only. */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .site-nav a {
+    padding: 0 0.55rem;
+    font-size: 0.88rem;
+  }
+
+  .header-actions .nav-contact-link {
+    display: none;
+  }
+
+  .header-actions .btn-sm {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.86rem;
+  }
+}

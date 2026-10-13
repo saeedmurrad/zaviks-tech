@@ -25,7 +25,9 @@
     </nav>
 
     <div class="header-actions">
-      <a class="nav-contact" routerLink="/contact" routerLinkActive="is-active">Contact</a>
+      <a class="nav-contact nav-contact-link" routerLink="/contact" routerLinkActive="is-active"
+        >Contact</a
+      >
       @if (auth.user(); as user) {
         <a
           class="nav-contact nav-account"
